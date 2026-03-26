@@ -4,7 +4,7 @@ import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(req: Request) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { planId, billingCycle } = await req.json()
@@ -18,7 +18,6 @@ export async function POST(req: Request) {
   const priceId = billingCycle === 'yearly' ? plan.stripePriceIdYearly : plan.stripePriceIdMonthly
   if (!priceId) return NextResponse.json({ error: 'Price not configured' }, { status: 400 })
 
-  // Get or create Stripe customer
   let subscription = await prisma.subscription.findUnique({ where: { userId: user.id } })
   let customerId = subscription?.stripeCustomerId
 

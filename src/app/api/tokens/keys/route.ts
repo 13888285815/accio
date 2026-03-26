@@ -3,9 +3,8 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import crypto from 'crypto'
 
-// 列出 API Keys
 export async function GET() {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const user = await prisma.user.findUnique({ where: { clerkId: userId } })
@@ -20,9 +19,8 @@ export async function GET() {
   return NextResponse.json({ keys })
 }
 
-// 创建新 API Key
 export async function POST(req: Request) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { name } = await req.json()
@@ -34,7 +32,6 @@ export async function POST(req: Request) {
   })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-  // 检查 API Key 数量限制
   const maxKeys = user.subscription?.plan.maxApiKeys ?? 1
   const existingKeys = await prisma.apiKey.count({ where: { userId: user.id, isActive: true } })
   if (existingKeys >= maxKeys) {
@@ -43,7 +40,6 @@ export async function POST(req: Request) {
     }, { status: 403 })
   }
 
-  // 生成 Key
   const rawKey = `sk-live-${crypto.randomBytes(24).toString('hex')}`
   const keyHash = crypto.createHash('sha256').update(rawKey).digest('hex')
   const keyPreview = `${rawKey.substring(0, 12)}...${rawKey.slice(-4)}`

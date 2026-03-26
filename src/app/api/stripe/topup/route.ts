@@ -4,7 +4,7 @@ import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(req: Request) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { amountUsd } = await req.json()
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       price_data: {
         currency: 'usd',
         product_data: { name: `Accio Credit Top-Up — $${amountUsd}` },
-        unit_amount: Math.round(amountUsd * 100), // cents
+        unit_amount: Math.round(amountUsd * 100),
       },
       quantity: 1,
     }],
