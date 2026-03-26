@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+// ── 用户表 ──────────────────────────────────────────────
+model User {
+  id                String    @id @default(cuid())
+  clerkId           String    @unique  // Clerk 用户 ID
+  email             String    @unique
+  name              String?
+  avatarUrl         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // 订阅关系
+  subscription      Subscription?
+
+  // API Token 计费
+  apiKeys           ApiKey[]
+  tokenUsages       TokenUsage[]
+  tokenBalance      TokenBalance?
+
+  @@map("users")
+}
+
+// ── 订阅计划 ────────────────────────────────────────────
+model Plan {
+  id                String    @id @default(cuid())
+  name              String    // "Free" | "Pro" | "Enterprise"
+  description       String?
+  monthlyPrice      Float     // 月付价格（美元）
+  yearlyPrice       Float     // 年付价格（美元）
+  stripePriceIdMonthly String? @unique
+  stripePriceIdYearly  String? @unique
+
+  // 权限配额
+  monthlyTokenLimit Int       @default(10000)   // 每月免费 Token 额度
+  apiCallLimit      Int       @default(100)      // 每月 API 调用次数限制
+  maxApiKeys        Int       @default(1)        // 最多可创建 API Key 数
+
+  features          Json      // 功能列表 JSON: ["feature1", "feature2"]
+  isActive          Boolean   @default(true)
+  sortOrder         Int       @default(0)
+
+  subscriptions     Subscription[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@map("plans")
+}
+
+// ── 用户订阅 ────────────────────────────────────────────
+model Subscription {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId                String
+  plan                  Plan      @relation(fields: [planId], references: [id])
+
+  // Stripe 信息
+  stripeCustomerId      String?   @unique
+  stripeSubscriptionId  String?   @unique
+  stripePriceId         String?
+  stripeCurrentPeriodEnd DateTime?
+
+  status                SubscriptionStatus @default(FREE)
+  billingCycle          BillingCycle?      // MONTHLY | YEARLY
+  cancelAtPeriodEnd     Boolean   @default(false)
+
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  FREE
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}
+
+// ── API Key ─────────────────────────────────────────────
+model ApiKey {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String    // 用户给 key 起的名字
+  keyHash     String    @unique  // 加密存储的 key hash
+  keyPreview  String    // 展示用前缀, 如 "sk-live-abc...xyz"
+  lastUsedAt  DateTime?
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+
+  usages      TokenUsage[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("api_keys")
+}
+
+// ── Token 用量记录 ──────────────────────────────────────
+model TokenUsage {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKeyId    String?
+  apiKey      ApiKey?   @relation(fields: [apiKeyId], references: [id])
+
+  model       String    // 使用的 AI 模型, 如 "gpt-4o", "claude-3-5-sonnet"
+  inputTokens Int       @default(0)
+  outputTokens Int      @default(0)
+  totalTokens Int       @default(0)
+  costUsd     Float     @default(0)  // 本次调用费用（美元）
+  endpoint    String?   // 调用的 API 端点
+  requestId   String?   // 请求 ID，用于排查
+
+  createdAt   DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([apiKeyId, createdAt])
+  @@map("token_usages")
+}
+
+// ── Token 余额 ──────────────────────────────────────────
+model TokenBalance {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  creditUsd       Float     @default(0)    // 充值余额（美元）
+  freeTokensUsed  Int       @default(0)    // 当月已用免费 Token
+  freeTokensReset DateTime  @default(now()) // 下次重置时间
+
+  updatedAt       DateTime  @updatedAt
+
+  @@map("token_balances")
+}
+
+// ── 充值记录 ────────────────────────────────────────────
+model CreditTopUp {
+  id                  String    @id @default(cuid())
+  userId              String
+  amountUsd           Float     // 充值金额
+  stripePaymentIntentId String? @unique
+  status              TopUpStatus @default(PENDING)
+  createdAt           DateTime  @default(now())
+
+  @@map("credit_topups")
+}
+
+enum TopUpStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+}
