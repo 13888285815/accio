@@ -1,151 +1,221 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accio — AI API Platform</title>
-  <meta name="description" content="One API for all AI models." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700;800&family=Noto+Sans+SC:wght@400;700;800&family=Noto+Sans+Arabic:wght@400;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --brand: #4f6ef7; --brand-dark: #3b5bdb; --brand-light: #eef1fe; }
-    html[lang="zh"] body, html[lang="ja"] body { font-family: 'Noto Sans SC', 'Noto Sans JP', 'Inter', sans-serif; }
-    html[lang="ar"] body { font-family: 'Noto Sans Arabic', sans-serif; }
-    body { font-family: 'Inter', system-ui, sans-serif; color: #111827; background: #fff; }
-    a { text-decoration: none; color: inherit; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GameVault — Global Game Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans+Arabic:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#7c3aed;--brand-dark:#6d28d9;--brand-light:#ede9fe;
+  --accent:#f59e0b;--accent-dark:#d97706;
+  --green:#10b981;--red:#ef4444;
+  --bg:#0f0f13;--bg2:#1a1a24;--bg3:#22222f;
+  --border:#2e2e3e;--text:#f1f1f5;--muted:#9090a8;
+}
+html[lang="zh"] body,html[lang="ja"] body{font-family:'Noto Sans SC','Noto Sans JP',Inter,sans-serif}
+html[lang="ar"] body{font-family:'Noto Sans Arabic',sans-serif}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
 
-    /* RTL support */
-    html[dir="rtl"] .nav-inner,
-    html[dir="rtl"] .footer-inner { flex-direction: row-reverse; }
-    html[dir="rtl"] .hero-btns { flex-direction: row-reverse; }
-    html[dir="rtl"] .plan-features li { flex-direction: row-reverse; }
-    html[dir="rtl"] th:not(:first-child), html[dir="rtl"] td:not(:first-child) { text-align: left; }
-    html[dir="rtl"] th:first-child, html[dir="rtl"] td:first-child { text-align: right; }
+/* RTL */
+html[dir="rtl"] .nav-inner,html[dir="rtl"] .footer-inner{flex-direction:row-reverse}
+html[dir="rtl"] .hero-content{text-align:right}
+html[dir="rtl"] .cart-badge{left:auto;right:-6px}
+html[dir="rtl"] .game-meta{flex-direction:row-reverse}
+html[dir="rtl"] .price-row{flex-direction:row-reverse}
 
-    /* NAV */
-    nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #f3f4f6; padding: 0 24px; }
-    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: var(--brand); }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { font-size: 14px; color: #6b7280; transition: color .2s; }
-    .nav-links a:hover { color: #111827; }
-    .nav-btns { display: flex; gap: 10px; align-items: center; }
-    .lang-switcher { display: flex; gap: 4px; margin-right: 12px; }
-    .lang-btn { border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 600; color: #6b7280; cursor: pointer; transition: all .2s; }
-    .lang-btn:hover, .lang-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; font-weight: 600; padding: 8px 18px; transition: all .2s; cursor: pointer; }
-    .btn-outline { border: 1px solid #e5e7eb; color: #374151; background: #fff; }
-    .btn-outline:hover { background: #f9fafb; }
-    .btn-primary { background: var(--brand); color: #fff; border: none; }
-    .btn-primary:hover { background: var(--brand-dark); }
-    .btn-lg { padding: 14px 32px; font-size: 15px; border-radius: 10px; }
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(15,15,19,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;gap:16px}
+.logo{font-size:22px;font-weight:900;background:linear-gradient(135deg,#7c3aed,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.nav-search{flex:1;max-width:420px;position:relative}
+.nav-search input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 16px 8px 40px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s}
+.nav-search input:focus{border-color:var(--brand)}
+.nav-search .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.lang-switcher{display:flex;gap:4px}
+.lang-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.lang-btn:hover,.lang-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.cart-btn{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;color:var(--text);display:flex;align-items:center;gap:6px;transition:all .2s}
+.cart-btn:hover{border-color:var(--brand);color:var(--brand)}
+.cart-badge{position:absolute;top:-6px;right:-6px;background:var(--accent);color:#000;font-size:10px;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
-    /* HERO */
-    .hero { padding: 100px 24px 80px; text-align: center; }
-    .hero-badge { display: inline-flex; align-items: center; background: var(--brand-light); color: var(--brand); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; border: 1px solid #d0d9fc; }
-    .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; }
-    .hero h1 span { color: var(--brand); }
-    .hero p { font-size: 18px; color: #6b7280; max-width: 560px; margin: 0 auto 36px; line-height: 1.75; }
-    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .hero-note { margin-top: 14px; font-size: 13px; color: #9ca3af; }
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:80px 24px;background:linear-gradient(135deg,#1a0a3e 0%,#0f0f13 50%,#1a0f00 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-content{max-width:700px;margin:0 auto;text-align:center;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:#c4b5fd;font-size:13px;font-weight:600;padding:6px 16px;border-radius:999px;margin-bottom:24px}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:20px}
+.hero h1 .grad{background:linear-gradient(135deg,#a78bfa,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:var(--muted);margin-bottom:36px;line-height:1.7;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font-size:15px;font-weight:700;padding:13px 28px;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--brand);color:var(--brand)}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.hero-stat strong{display:block;font-size:28px;font-weight:900;color:#fff}
+.hero-stat span{font-size:13px;color:var(--muted)}
 
-    /* CODE */
-    .code-section { padding: 0 24px 80px; }
-    .code-wrap { max-width: 760px; margin: 0 auto; background: #0f172a; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
-    .code-header { display: flex; align-items: center; gap: 6px; padding: 14px 18px; border-bottom: 1px solid #1e293b; }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
-    .code-filename { margin-left: 8px; font-size: 12px; color: #64748b; font-family: monospace; }
-    .code-body { padding: 24px; overflow-x: auto; }
-    .code-body code { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #e2e8f0; white-space: pre; }
-    .kw{color:#f472b6}.fn{color:#60a5fa}.str{color:#a3e635}
+/* FEATURED BANNER */
+.featured{max-width:1400px;margin:0 auto;padding:48px 24px 0}
+.featured-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.featured-main{border-radius:16px;overflow:hidden;position:relative;height:360px;background:linear-gradient(135deg,#1e1030,#2d1b69)}
+.featured-main img{width:100%;height:100%;object-fit:cover;opacity:.6}
+.featured-overlay{position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 60%)}
+.featured-tag{display:inline-flex;align-items:center;background:var(--accent);color:#000;font-size:11px;font-weight:800;padding:4px 10px;border-radius:4px;margin-bottom:12px;width:fit-content}
+.featured-main h2{font-size:28px;font-weight:900;margin-bottom:8px}
+.featured-main .desc{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.6}
+.featured-price{display:flex;align-items:center;gap:12px}
+.price-old{font-size:14px;color:var(--muted);text-decoration:line-through}
+.price-new{font-size:24px;font-weight:900;color:var(--accent)}
+.price-badge{background:var(--green);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:4px}
+.featured-side{display:flex;flex-direction:column;gap:12px}
+.featured-small{border-radius:12px;overflow:hidden;position:relative;height:170px;background:var(--bg3)}
+.featured-small img{width:100%;height:100%;object-fit:cover;opacity:.7}
+.featured-small .overlay{position:absolute;inset:0;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 60%)}
+.featured-small h3{font-size:15px;font-weight:700}
+.featured-small .mini-price{font-size:14px;font-weight:700;color:var(--accent);margin-top:4px}
 
-    /* STATS */
-    .stats { background: #f9fafb; border-top: 1px solid #f3f4f6; border-bottom: 1px solid #f3f4f6; padding: 56px 24px; }
-    .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align: center; }
-    .stat-val { font-size: 40px; font-weight: 800; color: var(--brand); }
-    .stat-label { font-size: 13px; color: #6b7280; margin-top: 6px; }
+/* SECTION */
+.section{max-width:1400px;margin:0 auto;padding:48px 24px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-title{font-size:22px;font-weight:800}
+.section-title span{color:var(--brand)}
+.see-all{font-size:13px;color:var(--brand);font-weight:600;cursor:pointer}
+.see-all:hover{text-decoration:underline}
 
-    /* FEATURES */
-    .features { padding: 96px 24px; }
-    .section-title { text-align: center; margin-bottom: 56px; }
-    .section-title h2 { font-size: clamp(28px,4vw,42px); font-weight: 800; letter-spacing: -0.5px; }
-    .section-title p { font-size: 16px; color: #6b7280; margin-top: 12px; }
-    .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 24px; }
-    .feature-card { border: 1px solid #e5e7eb; border-radius: 16px; padding: 28px; transition: box-shadow .2s; }
-    .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
-    .feature-icon { font-size: 32px; margin-bottom: 16px; }
-    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 14px; color: #6b7280; line-height: 1.7; }
+/* CATEGORY TABS */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.cat-tab{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.cat-tab:hover,.cat-tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
 
-    /* PRICING */
-    .pricing { background: #f9fafb; padding: 96px 24px; }
-    .pricing-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 24px; }
-    .plan-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 32px; position: relative; }
-    .plan-card.highlight { background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: 0 20px 40px rgba(79,110,247,.3); }
-    .plan-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #fbbf24; color: #111; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 999px; white-space: nowrap; }
-    .plan-name { font-size: 18px; font-weight: 700; }
-    .plan-desc { font-size: 13px; margin-top: 4px; opacity: .7; }
-    .plan-price { margin: 20px 0 4px; }
-    .plan-price strong { font-size: 42px; font-weight: 800; }
-    .plan-price span { font-size: 14px; opacity: .6; }
-    .plan-tokens { font-size: 13px; font-weight: 600; color: var(--brand); margin-bottom: 24px; }
-    .plan-card.highlight .plan-tokens { color: #c7d2fe; }
-    .plan-features { list-style: none; margin-bottom: 28px; }
-    .plan-features li { font-size: 13px; padding: 6px 0; display: flex; align-items: center; gap: 8px; opacity: .85; }
-    .plan-features li::before { content: '✓'; font-weight: 700; color: var(--brand); flex-shrink: 0; }
-    .plan-card.highlight .plan-features li::before { color: #a5b4fc; }
-    .plan-btn { display: block; width: 100%; padding: 12px; border-radius: 10px; text-align: center; font-size: 14px; font-weight: 700; transition: all .2s; cursor: pointer; border: none; }
-    .plan-btn-default { background: var(--brand); color: #fff; }
-    .plan-btn-default:hover { background: var(--brand-dark); }
-    .plan-btn-highlight { background: #fff; color: var(--brand); }
-    .plan-btn-highlight:hover { background: var(--brand-light); }
-    .token-table-wrap { max-width: 1100px; margin: 48px auto 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 32px; overflow-x: auto; }
-    .token-table-wrap h3 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { font-weight: 600; color: #6b7280; padding: 10px 0; border-bottom: 1px solid #f3f4f6; text-align: left; }
-    th:not(:first-child), td:not(:first-child) { text-align: right; }
-    td { padding: 12px 0; color: #374151; border-bottom: 1px solid #f9fafb; }
-    td:first-child { font-weight: 600; color: #111827; }
+/* GAME CARDS */
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.game-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative}
+.game-card:hover{transform:translateY(-4px);border-color:var(--brand);box-shadow:0 16px 40px rgba(124,58,237,.2)}
+.game-card-img{height:140px;background:var(--bg3);position:relative;overflow:hidden}
+.game-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.game-card:hover .game-card-img img{transform:scale(1.05)}
+.game-card-discount{position:absolute;top:10px;right:10px;background:var(--green);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:4px}
+.game-card-new{position:absolute;top:10px;left:10px;background:var(--brand);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:4px}
+.game-card-body{padding:14px}
+.game-card-title{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.game-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.game-tag{background:var(--bg3);border:1px solid var(--border);font-size:10px;color:var(--muted);padding:2px 8px;border-radius:4px}
+.game-rating{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--accent)}
+.price-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.price-block .old{font-size:11px;color:var(--muted);text-decoration:line-through}
+.price-block .new{font-size:17px;font-weight:800;color:#fff}
+.price-block .free{font-size:17px;font-weight:800;color:var(--green)}
+.add-cart-btn{background:var(--brand);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.add-cart-btn:hover{background:var(--brand-dark);transform:scale(1.05)}
+.add-cart-btn.added{background:var(--green)}
 
-    /* CTA */
-    .cta { padding: 96px 24px; text-align: center; }
-    .cta h2 { font-size: clamp(28px,4vw,48px); font-weight: 800; margin-bottom: 16px; }
-    .cta p { font-size: 17px; color: #6b7280; margin-bottom: 36px; }
+/* PROMO BANNER */
+.promo-banner{max-width:1400px;margin:0 auto;padding:0 24px 48px}
+.promo-inner{background:linear-gradient(135deg,#7c3aed,#f59e0b);border-radius:20px;padding:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.promo-text h2{font-size:28px;font-weight:900;margin-bottom:8px}
+.promo-text p{font-size:15px;opacity:.85}
+.promo-btn{background:#fff;color:var(--brand);border:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;white-space:nowrap}
+.promo-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
 
-    /* FOOTER */
-    footer { border-top: 1px solid #f3f4f6; padding: 36px 24px; }
-    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: 13px; color: #9ca3af; }
-    .footer-links a:hover { color: #374151; }
-    .footer-copy { font-size: 13px; color: #9ca3af; }
+/* CART SIDEBAR */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:380px;background:var(--bg2);border-left:1px solid var(--border);z-index:201;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column}
+html[dir="rtl"] .cart-sidebar{right:auto;left:0;border-left:none;border-right:1px solid var(--border);transform:translateX(-100%)}
+.cart-overlay.open .cart-sidebar{transform:translateX(0)}
+html[dir="rtl"] .cart-overlay.open .cart-sidebar{transform:translateX(0)}
+.cart-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-header h3{font-size:18px;font-weight:800}
+.cart-close{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.cart-close:hover{color:var(--text)}
+.cart-items{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-empty{text-align:center;padding:48px 0;color:var(--muted)}
+.cart-empty .icon{font-size:48px;margin-bottom:12px}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item-img{width:60px;height:60px;border-radius:8px;object-fit:cover;background:var(--bg3);flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.cart-item-price{font-size:15px;font-weight:800;color:var(--accent)}
+.cart-item-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0;line-height:1}
+.cart-item-remove:hover{color:var(--red)}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:16px;font-size:16px;font-weight:700}
+.cart-total span:last-child{color:var(--accent);font-size:20px}
+.checkout-btn{width:100%;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:14px;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s}
+.checkout-btn:hover{background:var(--brand-dark)}
 
-    /* Loading overlay */
-    #lang-loading { position: fixed; inset: 0; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity .4s; }
-    #lang-loading.hide { opacity: 0; pointer-events: none; }
-    .spinner { width: 36px; height: 36px; border: 3px solid #e5e7eb; border-top-color: var(--brand); border-radius: 50%; animation: spin .7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:999;transition:transform .3s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
 
-    @media(max-width:768px) { .nav-links { display: none; } .lang-switcher { display: none; } }
-    @media(max-width:640px) { .stats-grid { grid-template-columns: repeat(2,1fr); } .footer-inner { flex-direction: column; text-align: center; } }
-  </style>
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 24px 24px}
+.footer-inner{max-width:1400px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .logo{margin-bottom:12px}
+.footer-brand p{font-size:13px;color:var(--muted);line-height:1.7;max-width:260px}
+.footer-col h4{font-size:14px;font-weight:700;margin-bottom:16px;color:#fff}
+.footer-col a{display:block;font-size:13px;color:var(--muted);margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--brand)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-langs{display:flex;gap:8px;flex-wrap:wrap}
+.footer-lang{font-size:12px;color:var(--muted);cursor:pointer;padding:3px 8px;border-radius:4px;border:1px solid var(--border)}
+.footer-lang:hover{color:var(--brand);border-color:var(--brand)}
+.payment-icons{display:flex;gap:8px;align-items:center}
+.pay-icon{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--muted);font-weight:600}
+
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s}
+#loading.hide{opacity:0;pointer-events:none}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:1024px){.featured-grid{grid-template-columns:1fr}.featured-side{display:none}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.nav-search{display:none}.lang-switcher{display:none}.hero h1{font-size:32px}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+</style>
 </head>
 <body>
 
-<!-- Loading -->
-<div id="lang-loading"><div class="spinner"></div></div>
+<div id="loading"><div class="spinner"></div></div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart(event)">
+  <div class="cart-sidebar">
+    <div class="cart-header">
+      <h3 data-i18n="cart.title">🛒 Cart</h3>
+      <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span data-i18n="cart.total">Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()" data-i18n="cart.checkout">Checkout →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="logo">⚡ Accio</a>
-    <div class="nav-links">
-      <a href="#features" data-i18n="nav.features">Features</a>
-      <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
-      <a href="#docs" data-i18n="nav.docs">Docs</a>
+    <div class="logo">🎮 GameVault</div>
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" data-i18n-placeholder="nav.search" placeholder="Search games..." oninput="filterGames(this.value)"/>
     </div>
-    <div class="nav-btns">
+    <div class="nav-actions">
       <div class="lang-switcher">
         <button class="lang-btn" onclick="setLang('en')">EN</button>
         <button class="lang-btn" onclick="setLang('zh')">中文</button>
@@ -153,409 +223,439 @@
         <button class="lang-btn" onclick="setLang('de')">DE</button>
         <button class="lang-btn" onclick="setLang('ar')">عربي</button>
       </div>
-      <a href="sign-in.html" class="btn btn-outline" data-i18n="nav.signin">Sign In</a>
-      <a href="sign-up.html" class="btn btn-primary" data-i18n="nav.signup">Get Started Free</a>
+      <button class="cart-btn" onclick="toggleCart()">
+        🛒 <span data-i18n="nav.cart">Cart</span>
+        <span class="cart-badge" id="cartCount" style="display:none">0</span>
+      </button>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge" data-i18n="hero.badge">🎉 Now supporting GPT-4o · Claude 3.5 · Gemini 1.5</div>
-  <h1 data-i18n="hero.h1">One API for<br><span data-i18n="hero.h1span">all AI models</span></h1>
-  <p data-i18n="hero.desc">Access the world's best AI through a single unified API. Token-based billing, transparent pricing, zero surprises.</p>
-  <div class="hero-btns">
-    <a href="sign-up.html" class="btn btn-primary btn-lg" data-i18n="hero.cta1">Start for Free — No credit card</a>
-    <a href="#pricing" class="btn btn-outline btn-lg" data-i18n="hero.cta2">View Pricing →</a>
-  </div>
-  <p class="hero-note" data-i18n="hero.note">10,000 free tokens every month. Forever.</p>
-</section>
-
-<!-- CODE -->
-<section class="code-section">
-  <div class="code-wrap">
-    <div class="code-header">
-      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-      <span class="code-filename">example.py</span>
+  <div class="hero-content">
+    <div class="hero-badge">⚡ <span data-i18n="hero.badge">Flash Sale — Up to 90% Off This Weekend</span></div>
+    <h1><span data-i18n="hero.h1a">The World's Best</span><br><span class="grad" data-i18n="hero.h1b">Game Store</span></h1>
+    <p data-i18n="hero.desc">Instant delivery of game keys. 50,000+ titles. Lowest prices guaranteed. Shop in your language, pay your way.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="scrollToGames()" data-i18n="hero.shop">Shop Now →</button>
+      <button class="btn btn-outline" data-i18n="hero.deals">Today's Deals</button>
     </div>
-    <div class="code-body"><code><span class="kw">import</span> requests
-
-response = requests.<span class="fn">post</span>(
-    <span class="str">"https://yndxw.com/api/chat"</span>,
-    headers={<span class="str">"Authorization"</span>: <span class="str">"Bearer sk-live-your-key"</span>},
-    json={
-        <span class="str">"model"</span>: <span class="str">"gpt-4o"</span>,
-        <span class="str">"messages"</span>: [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Hello!"</span>}]
-    }
-)
-<span class="fn">print</span>(response.json())</code></div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="stats">
-  <div class="stats-grid">
-    <div><div class="stat-val">1B+</div><div class="stat-label" data-i18n="stats.tokens">Tokens Processed</div></div>
-    <div><div class="stat-val">50k+</div><div class="stat-label" data-i18n="stats.devs">Developers</div></div>
-    <div><div class="stat-val">99.9%</div><div class="stat-label" data-i18n="stats.uptime">Uptime SLA</div></div>
-    <div><div class="stat-val">&lt;100ms</div><div class="stat-label" data-i18n="stats.latency">Avg Latency</div></div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features" id="features">
-  <div class="section-title">
-    <h2 data-i18n="features.title">Everything you need to ship AI</h2>
-    <p data-i18n="features.sub">Built for developers who move fast.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon">⚡</div><h3 data-i18n="f1.title">Ultra Low Latency</h3><p data-i18n="f1.desc">Global edge network with &lt;100ms response times worldwide.</p></div>
-    <div class="feature-card"><div class="feature-icon">🔑</div><h3 data-i18n="f2.title">Simple API Keys</h3><p data-i18n="f2.desc">One key to access GPT-4o, Claude, Gemini and more.</p></div>
-    <div class="feature-card"><div class="feature-icon">📊</div><h3 data-i18n="f3.title">Real-time Analytics</h3><p data-i18n="f3.desc">Track token usage, costs, and performance in your dashboard.</p></div>
-    <div class="feature-card"><div class="feature-icon">💳</div><h3 data-i18n="f4.title">Pay As You Go</h3><p data-i18n="f4.desc">Start free. Only pay when you exceed your monthly quota.</p></div>
-    <div class="feature-card"><div class="feature-icon">🛡️</div><h3 data-i18n="f5.title">Enterprise Security</h3><p data-i18n="f5.desc">SOC2 compliant. Keys hashed, data encrypted at rest.</p></div>
-    <div class="feature-card"><div class="feature-icon">🔄</div><h3 data-i18n="f6.title">Automatic Failover</h3><p data-i18n="f6.desc">Multi-provider routing ensures 99.9% uptime SLA.</p></div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-title">
-    <h2 data-i18n="pricing.title">Simple, transparent pricing</h2>
-    <p data-i18n="pricing.sub">Start free. Scale as you grow. No hidden fees.</p>
-  </div>
-  <div class="pricing-grid">
-    <div class="plan-card">
-      <div class="plan-name" data-i18n="plan1.name">Free</div>
-      <div class="plan-desc" data-i18n="plan1.desc">Perfect for experimenting</div>
-      <div class="plan-price"><strong>$0</strong><span data-i18n="plan.month">/month</span></div>
-      <div class="plan-tokens" data-i18n="plan1.tokens">10,000 tokens/mo</div>
-      <ul class="plan-features">
-        <li data-i18n="plan1.f1">10,000 free tokens/month</li>
-        <li data-i18n="plan1.f2">1 API key</li>
-        <li data-i18n="plan1.f3">Community support</li>
-        <li data-i18n="plan1.f4">Standard rate limits</li>
-      </ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-default" data-i18n="plan1.cta">Get Started Free</a>
-    </div>
-    <div class="plan-card highlight">
-      <div class="plan-badge" data-i18n="plan.popular">MOST POPULAR</div>
-      <div class="plan-name" data-i18n="plan2.name">Pro</div>
-      <div class="plan-desc" data-i18n="plan2.desc">For developers &amp; small teams</div>
-      <div class="plan-price"><strong>$29</strong><span data-i18n="plan.month">/month</span></div>
-      <div class="plan-tokens" data-i18n="plan2.tokens">500,000 tokens/mo</div>
-      <ul class="plan-features">
-        <li data-i18n="plan2.f1">500,000 tokens/month</li>
-        <li data-i18n="plan2.f2">5 API keys</li>
-        <li data-i18n="plan2.f3">Priority support</li>
-        <li data-i18n="plan2.f4">Higher rate limits</li>
-        <li data-i18n="plan2.f5">Usage analytics</li>
-        <li data-i18n="plan2.f6">Pay-as-you-go after quota</li>
-      </ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-highlight" data-i18n="plan2.cta">Start Pro Trial</a>
-    </div>
-    <div class="plan-card">
-      <div class="plan-name" data-i18n="plan3.name">Enterprise</div>
-      <div class="plan-desc" data-i18n="plan3.desc">For production workloads</div>
-      <div class="plan-price"><strong>$199</strong><span data-i18n="plan.month">/month</span></div>
-      <div class="plan-tokens" data-i18n="plan3.tokens">Unlimited tokens</div>
-      <ul class="plan-features">
-        <li data-i18n="plan3.f1">Unlimited tokens</li>
-        <li data-i18n="plan3.f2">20 API keys</li>
-        <li data-i18n="plan3.f3">Dedicated support</li>
-        <li data-i18n="plan3.f4">Custom rate limits</li>
-        <li data-i18n="plan3.f5">Advanced analytics</li>
-        <li data-i18n="plan3.f6">SLA guarantee</li>
-      </ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-default" data-i18n="plan3.cta">Contact Sales</a>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>50K+</strong><span data-i18n="hero.s1">Games</span></div>
+      <div class="hero-stat"><strong>2M+</strong><span data-i18n="hero.s2">Happy Customers</span></div>
+      <div class="hero-stat"><strong>instant</strong><span data-i18n="hero.s3">Key Delivery</span></div>
+      <div class="hero-stat"><strong>24/7</strong><span data-i18n="hero.s4">Support</span></div>
     </div>
   </div>
-  <div class="token-table-wrap">
-    <h3 data-i18n="table.title">Pay-as-you-go Token Pricing</h3>
-    <table>
-      <thead><tr>
-        <th data-i18n="table.model">Model</th>
-        <th data-i18n="table.input">Input (per 1M tokens)</th>
-        <th data-i18n="table.output">Output (per 1M tokens)</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>GPT-4o</td><td>$5.00</td><td>$15.00</td></tr>
-        <tr><td>GPT-4o Mini</td><td>$0.15</td><td>$0.60</td></tr>
-        <tr><td>Claude 3.5 Sonnet</td><td>$3.00</td><td>$15.00</td></tr>
-        <tr><td>Claude 3 Haiku</td><td>$0.25</td><td>$1.25</td></tr>
-        <tr><td>GPT-4 Turbo</td><td>$10.00</td><td>$30.00</td></tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <h2 data-i18n="cta.title">Ready to build?</h2>
-  <p data-i18n="cta.desc">Join 50,000+ developers already using Accio.</p>
-  <a href="sign-up.html" class="btn btn-primary btn-lg" data-i18n="cta.btn">Start for Free →</a>
-</section>
+<!-- FEATURED -->
+<div class="featured">
+  <div class="featured-grid">
+    <div class="featured-main">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80" alt="Featured Game"/>
+      <div class="featured-overlay">
+        <div class="featured-tag" data-i18n="feat.tag">⭐ FEATURED DEAL</div>
+        <h2>Cyberpunk 2077</h2>
+        <p class="desc" data-i18n="feat.desc">The open-world RPG of the decade. Explore Night City in the ultimate edition.</p>
+        <div class="featured-price">
+          <span class="price-old">$59.99</span>
+          <span class="price-new">$17.99</span>
+          <span class="price-badge">-70%</span>
+          <button class="btn btn-primary" style="padding:8px 20px;font-size:13px" onclick="addToCart({id:99,title:'Cyberpunk 2077',price:17.99,img:'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&q=80'})" data-i18n="feat.buy">Buy Now</button>
+        </div>
+      </div>
+    </div>
+    <div class="featured-side">
+      <div class="featured-small">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80" alt="Game 2"/>
+        <div class="overlay">
+          <h3>Elden Ring</h3>
+          <div class="mini-price">$34.99 <span style="font-size:11px;color:var(--green)">-30%</span></div>
+        </div>
+      </div>
+      <div class="featured-small">
+        <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&q=80" alt="Game 3"/>
+        <div class="overlay">
+          <h3>Red Dead Redemption 2</h3>
+          <div class="mini-price">$19.99 <span style="font-size:11px;color:var(--green)">-60%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GAMES SECTION -->
+<div class="section" id="gamesSection">
+  <div class="section-header">
+    <h2 class="section-title"><span data-i18n="games.title">🔥 Hot Deals</span></h2>
+    <span class="see-all" data-i18n="games.all">See All →</span>
+  </div>
+  <div class="cat-tabs" id="catTabs"></div>
+  <div class="games-grid" id="gamesGrid"></div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <div class="promo-inner">
+    <div class="promo-text">
+      <h2 data-i18n="promo.title">🎁 Get 10% Off Your First Order</h2>
+      <p data-i18n="promo.desc">Sign up now and receive an exclusive discount code instantly in your email.</p>
+    </div>
+    <button class="promo-btn" data-i18n="promo.btn">Claim Discount →</button>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <a href="/" class="logo">⚡ Accio</a>
-    <div class="footer-copy" data-i18n="footer.copy">© 2026 Accio. All rights reserved.</div>
-    <div class="footer-links">
-      <a href="#" data-i18n="footer.privacy">Privacy</a>
-      <a href="#" data-i18n="footer.terms">Terms</a>
-      <a href="#" data-i18n="footer.docs">Docs</a>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">🎮 GameVault</div>
+        <p data-i18n="footer.desc">The world's largest cross-border game key store. Instant delivery, lowest prices, 24/7 support.</p>
+        <div class="payment-icons" style="margin-top:16px">
+          <span class="pay-icon">WeChat</span>
+          <span class="pay-icon">Alipay</span>
+          <span class="pay-icon">Stripe</span>
+          <span class="pay-icon">PayPal</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.store">Store</h4>
+        <a href="#" data-i18n="footer.new">New Releases</a>
+        <a href="#" data-i18n="footer.deals">Top Deals</a>
+        <a href="#" data-i18n="footer.free">Free Games</a>
+        <a href="#" data-i18n="footer.pre">Pre-orders</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.support">Support</h4>
+        <a href="#" data-i18n="footer.faq">FAQ</a>
+        <a href="#" data-i18n="footer.contact">Contact Us</a>
+        <a href="#" data-i18n="footer.refund">Refund Policy</a>
+        <a href="#" data-i18n="footer.delivery">Key Delivery</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.company">Company</h4>
+        <a href="#" data-i18n="footer.about">About Us</a>
+        <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
+        <a href="#" data-i18n="footer.terms">Terms of Service</a>
+        <a href="#" data-i18n="footer.affiliate">Affiliate Program</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GameVault. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <div class="footer-langs">
+        <span class="footer-lang" onclick="setLang('en')">English</span>
+        <span class="footer-lang" onclick="setLang('zh')">中文</span>
+        <span class="footer-lang" onclick="setLang('ja')">日本語</span>
+        <span class="footer-lang" onclick="setLang('de')">Deutsch</span>
+        <span class="footer-lang" onclick="setLang('ar')">العربية</span>
+      </div>
     </div>
   </div>
 </footer>
 
 <script>
-// ── 翻译数据 ──────────────────────────────────────────────
-const TRANSLATIONS = {
-  en: {
-    'nav.features':'Features','nav.pricing':'Pricing','nav.docs':'Docs',
-    'nav.signin':'Sign In','nav.signup':'Get Started Free',
-    'hero.badge':'🎉 Now supporting GPT-4o · Claude 3.5 · Gemini 1.5',
-    'hero.h1':'One API for<br><span>all AI models</span>',
-    'hero.h1span':'all AI models',
-    'hero.desc':"Access the world's best AI through a single unified API. Token-based billing, transparent pricing, zero surprises.",
-    'hero.cta1':'Start for Free — No credit card','hero.cta2':'View Pricing →',
-    'hero.note':'10,000 free tokens every month. Forever.',
-    'stats.tokens':'Tokens Processed','stats.devs':'Developers','stats.uptime':'Uptime SLA','stats.latency':'Avg Latency',
-    'features.title':'Everything you need to ship AI','features.sub':'Built for developers who move fast.',
-    'f1.title':'Ultra Low Latency','f1.desc':'Global edge network with <100ms response times worldwide.',
-    'f2.title':'Simple API Keys','f2.desc':'One key to access GPT-4o, Claude, Gemini and more.',
-    'f3.title':'Real-time Analytics','f3.desc':'Track token usage, costs, and performance in your dashboard.',
-    'f4.title':'Pay As You Go','f4.desc':'Start free. Only pay when you exceed your monthly quota.',
-    'f5.title':'Enterprise Security','f5.desc':'SOC2 compliant. Keys hashed, data encrypted at rest.',
-    'f6.title':'Automatic Failover','f6.desc':'Multi-provider routing ensures 99.9% uptime SLA.',
-    'pricing.title':'Simple, transparent pricing','pricing.sub':'Start free. Scale as you grow. No hidden fees.',
-    'plan.month':'/month','plan.popular':'MOST POPULAR',
-    'plan1.name':'Free','plan1.desc':'Perfect for experimenting','plan1.tokens':'10,000 tokens/mo',
-    'plan1.f1':'10,000 free tokens/month','plan1.f2':'1 API key','plan1.f3':'Community support','plan1.f4':'Standard rate limits','plan1.cta':'Get Started Free',
-    'plan2.name':'Pro','plan2.desc':'For developers & small teams','plan2.tokens':'500,000 tokens/mo',
-    'plan2.f1':'500,000 tokens/month','plan2.f2':'5 API keys','plan2.f3':'Priority support','plan2.f4':'Higher rate limits','plan2.f5':'Usage analytics','plan2.f6':'Pay-as-you-go after quota','plan2.cta':'Start Pro Trial',
-    'plan3.name':'Enterprise','plan3.desc':'For production workloads','plan3.tokens':'Unlimited tokens',
-    'plan3.f1':'Unlimited tokens','plan3.f2':'20 API keys','plan3.f3':'Dedicated support','plan3.f4':'Custom rate limits','plan3.f5':'Advanced analytics','plan3.f6':'SLA guarantee','plan3.cta':'Contact Sales',
-    'table.title':'Pay-as-you-go Token Pricing','table.model':'Model','table.input':'Input (per 1M tokens)','table.output':'Output (per 1M tokens)',
-    'cta.title':'Ready to build?','cta.desc':'Join 50,000+ developers already using Accio.','cta.btn':'Start for Free →',
-    'footer.copy':'© 2026 Accio. All rights reserved.','footer.privacy':'Privacy','footer.terms':'Terms','footer.docs':'Docs',
-  },
-  zh: {
-    'nav.features':'功能','nav.pricing':'定价','nav.docs':'文档',
-    'nav.signin':'登录','nav.signup':'免费开始',
-    'hero.badge':'🎉 现已支持 GPT-4o · Claude 3.5 · Gemini 1.5',
-    'hero.h1':'一个 API<br><span>接入所有 AI 模型</span>',
-    'hero.h1span':'接入所有 AI 模型',
-    'hero.desc':'通过单一统一 API 访问全球最强 AI 模型。基于 Token 计费，价格透明，零隐藏费用。',
-    'hero.cta1':'免费开始 — 无需信用卡','hero.cta2':'查看定价 →',
-    'hero.note':'每月赠送 10,000 个免费 Token，永久有效。',
-    'stats.tokens':'已处理 Token','stats.devs':'开发者','stats.uptime':'可用性 SLA','stats.latency':'平均延迟',
-    'features.title':'一切都为 AI 开发而生','features.sub':'专为快速迭代的开发者打造。',
-    'f1.title':'超低延迟','f1.desc':'全球边缘网络，全球响应时间低于 100ms。',
-    'f2.title':'简单 API Key','f2.desc':'一个 Key 访问 GPT-4o、Claude、Gemini 等所有模型。',
-    'f3.title':'实时分析','f3.desc':'在仪表盘中追踪 Token 用量、费用和性能。',
-    'f4.title':'按量付费','f4.desc':'免费起步，超出配额后再付费，无最低消费。',
-    'f5.title':'企业级安全','f5.desc':'符合 SOC2 标准，Key 加密存储，数据静态加密。',
-    'f6.title':'自动故障转移','f6.desc':'多供应商路由确保 99.9% 的可用性 SLA。',
-    'pricing.title':'简单透明的定价','pricing.sub':'免费起步，按需扩展，无隐藏费用。',
-    'plan.month':'/月','plan.popular':'最受欢迎',
-    'plan1.name':'免费版','plan1.desc':'适合探索体验','plan1.tokens':'每月 1 万 Token',
-    'plan1.f1':'每月 10,000 免费 Token','plan1.f2':'1 个 API Key','plan1.f3':'社区支持','plan1.f4':'标准速率限制','plan1.cta':'免费开始',
-    'plan2.name':'专业版','plan2.desc':'适合开发者和小团队','plan2.tokens':'每月 50 万 Token',
-    'plan2.f1':'每月 500,000 Token','plan2.f2':'5 个 API Key','plan2.f3':'优先支持','plan2.f4':'更高速率限制','plan2.f5':'用量分析','plan2.f6':'超出配额后按量计费','plan2.cta':'开始专业版试用',
-    'plan3.name':'企业版','plan3.desc':'适合生产级工作负载','plan3.tokens':'无限 Token',
-    'plan3.f1':'无限 Token','plan3.f2':'20 个 API Key','plan3.f3':'专属支持','plan3.f4':'自定义速率限制','plan3.f5':'高级分析','plan3.f6':'SLA 保障','plan3.cta':'联系销售',
-    'table.title':'按量计费 Token 定价','table.model':'模型','table.input':'输入（每 100 万 Token）','table.output':'输出（每 100 万 Token）',
-    'cta.title':'准备好开始了吗？','cta.desc':'加入已有 50,000+ 名开发者的 Accio。','cta.btn':'免费开始 →',
-    'footer.copy':'© 2026 Accio. 保留所有权利。','footer.privacy':'隐私政策','footer.terms':'服务条款','footer.docs':'文档',
-  },
-  ja: {
-    'nav.features':'機能','nav.pricing':'料金','nav.docs':'ドキュメント',
-    'nav.signin':'ログイン','nav.signup':'無料で始める',
-    'hero.badge':'🎉 GPT-4o · Claude 3.5 · Gemini 1.5 に対応',
-    'hero.h1':'すべての AI モデルに<br><span>一つの API で</span>',
-    'hero.h1span':'一つの API で',
-    'hero.desc':'統合された単一 API で世界最高の AI モデルにアクセス。トークンベースの課金、透明な料金体系。',
-    'hero.cta1':'無料で始める — クレジットカード不要','hero.cta2':'料金を見る →',
-    'hero.note':'毎月 10,000 トークン無料。永久に。',
-    'stats.tokens':'処理済みトークン','stats.devs':'開発者数','stats.uptime':'稼働率 SLA','stats.latency':'平均レイテンシ',
-    'features.title':'AI 開発に必要なすべて','features.sub':'スピードを重視する開発者のために。',
-    'f1.title':'超低レイテンシ','f1.desc':'グローバルエッジネットワークで世界中 100ms 以下。',
-    'f2.title':'シンプルな API キー','f2.desc':'1 つのキーで GPT-4o、Claude、Gemini などにアクセス。',
-    'f3.title':'リアルタイム分析','f3.desc':'ダッシュボードでトークン使用量・コスト・パフォーマンスを追跡。',
-    'f4.title':'従量課金','f4.desc':'無料から始めて、クォータを超えた分だけ支払う。',
-    'f5.title':'エンタープライズセキュリティ','f5.desc':'SOC2 準拠。キーはハッシュ化、データは暗号化。',
-    'f6.title':'自動フェイルオーバー','f6.desc':'マルチプロバイダールーティングで 99.9% の稼働率を保証。',
-    'pricing.title':'シンプルで透明な料金','pricing.sub':'無料から始めて、成長に合わせてスケール。',
-    'plan.month':'/月','plan.popular':'最も人気',
-    'plan1.name':'無料','plan1.desc':'試してみるのに最適','plan1.tokens':'月 10,000 トークン',
-    'plan1.f1':'月 10,000 無料トークン','plan1.f2':'API キー 1 つ','plan1.f3':'コミュニティサポート','plan1.f4':'標準レート制限','plan1.cta':'無料で始める',
-    'plan2.name':'プロ','plan2.desc':'開発者・小規模チーム向け','plan2.tokens':'月 500,000 トークン',
-    'plan2.f1':'月 500,000 トークン','plan2.f2':'API キー 5 つ','plan2.f3':'優先サポート','plan2.f4':'高レート制限','plan2.f5':'使用状況分析','plan2.f6':'クォータ超過後は従量課金','plan2.cta':'プロを始める',
-    'plan3.name':'エンタープライズ','plan3.desc':'本番ワークロード向け','plan3.tokens':'無制限トークン',
-    'plan3.f1':'無制限トークン','plan3.f2':'API キー 20 個','plan3.f3':'専任サポート','plan3.f4':'カスタムレート制限','plan3.f5':'高度な分析','plan3.f6':'SLA 保証','plan3.cta':'営業に問い合わせ',
-    'table.title':'従量課金トークン料金','table.model':'モデル','table.input':'入力（100 万トークンあたり）','table.output':'出力（100 万トークンあたり）',
-    'cta.title':'さっそく始めましょう','cta.desc':'50,000 人以上の開発者が Accio を利用中。','cta.btn':'無料で始める →',
-    'footer.copy':'© 2026 Accio. All rights reserved.','footer.privacy':'プライバシー','footer.terms':'利用規約','footer.docs':'ドキュメント',
-  },
-  de: {
-    'nav.features':'Funktionen','nav.pricing':'Preise','nav.docs':'Dokumentation',
-    'nav.signin':'Anmelden','nav.signup':'Kostenlos starten',
-    'hero.badge':'🎉 Jetzt mit GPT-4o · Claude 3.5 · Gemini 1.5',
-    'hero.h1':'Eine API für<br><span>alle KI-Modelle</span>',
-    'hero.h1span':'alle KI-Modelle',
-    'hero.desc':'Zugriff auf die besten KI-Modelle der Welt über eine einheitliche API. Token-basierte Abrechnung, transparente Preise.',
-    'hero.cta1':'Kostenlos starten — Keine Kreditkarte','hero.cta2':'Preise ansehen →',
-    'hero.note':'10.000 kostenlose Token jeden Monat. Für immer.',
-    'stats.tokens':'Verarbeitete Token','stats.devs':'Entwickler','stats.uptime':'Verfügbarkeit SLA','stats.latency':'Ø Latenz',
-    'features.title':'Alles für die KI-Entwicklung','features.sub':'Gebaut für Entwickler, die schnell liefern.',
-    'f1.title':'Extrem niedrige Latenz','f1.desc':'Globales Edge-Netzwerk mit <100ms Antwortzeiten weltweit.',
-    'f2.title':'Einfache API-Schlüssel','f2.desc':'Ein Schlüssel für GPT-4o, Claude, Gemini und mehr.',
-    'f3.title':'Echtzeit-Analysen','f3.desc':'Verfolgen Sie Token-Nutzung, Kosten und Leistung im Dashboard.',
-    'f4.title':'Pay As You Go','f4.desc':'Kostenlos starten. Nur zahlen wenn Sie Ihr Kontingent überschreiten.',
-    'f5.title':'Unternehmenssicherheit','f5.desc':'SOC2-konform. Schlüssel gehasht, Daten verschlüsselt.',
-    'f6.title':'Automatischer Failover','f6.desc':'Multi-Provider-Routing garantiert 99,9% Verfügbarkeit.',
-    'pricing.title':'Einfache, transparente Preise','pricing.sub':'Kostenlos starten. Skalieren nach Bedarf. Keine versteckten Gebühren.',
-    'plan.month':'/Monat','plan.popular':'BELIEBTESTE',
-    'plan1.name':'Kostenlos','plan1.desc':'Perfekt zum Ausprobieren','plan1.tokens':'10.000 Token/Monat',
-    'plan1.f1':'10.000 kostenlose Token/Monat','plan1.f2':'1 API-Schlüssel','plan1.f3':'Community-Support','plan1.f4':'Standard-Ratenlimits','plan1.cta':'Kostenlos starten',
-    'plan2.name':'Pro','plan2.desc':'Für Entwickler & kleine Teams','plan2.tokens':'500.000 Token/Monat',
-    'plan2.f1':'500.000 Token/Monat','plan2.f2':'5 API-Schlüssel','plan2.f3':'Prioritäts-Support','plan2.f4':'Höhere Ratenlimits','plan2.f5':'Nutzungsanalysen','plan2.f6':'Pay-as-you-go nach Kontingent','plan2.cta':'Pro-Testversion starten',
-    'plan3.name':'Enterprise','plan3.desc':'Für Produktions-Workloads','plan3.tokens':'Unbegrenzte Token',
-    'plan3.f1':'Unbegrenzte Token','plan3.f2':'20 API-Schlüssel','plan3.f3':'Dedizierter Support','plan3.f4':'Benutzerdefinierte Ratenlimits','plan3.f5':'Erweiterte Analysen','plan3.f6':'SLA-Garantie','plan3.cta':'Vertrieb kontaktieren',
-    'table.title':'Token-Preise für Pay-as-you-go','table.model':'Modell','table.input':'Eingabe (pro 1M Token)','table.output':'Ausgabe (pro 1M Token)',
-    'cta.title':'Bereit loszulegen?','cta.desc':'Schließen Sie sich 50.000+ Entwicklern an, die Accio nutzen.','cta.btn':'Kostenlos starten →',
-    'footer.copy':'© 2026 Accio. Alle Rechte vorbehalten.','footer.privacy':'Datenschutz','footer.terms':'Nutzungsbedingungen','footer.docs':'Dokumentation',
-  },
-  ar: {
-    'nav.features':'المميزات','nav.pricing':'الأسعار','nav.docs':'التوثيق',
-    'nav.signin':'تسجيل الدخول','nav.signup':'ابدأ مجاناً',
-    'hero.badge':'🎉 يدعم الآن GPT-4o · Claude 3.5 · Gemini 1.5',
-    'hero.h1':'واجهة برمجية واحدة<br><span>لجميع نماذج الذكاء الاصطناعي</span>',
-    'hero.h1span':'لجميع نماذج الذكاء الاصطناعي',
-    'hero.desc':'وصول إلى أفضل نماذج الذكاء الاصطناعي في العالم عبر API موحدة. فوترة قائمة على الرموز، أسعار شفافة، بدون مفاجآت.',
-    'hero.cta1':'ابدأ مجاناً — بدون بطاقة ائتمان','hero.cta2':'عرض الأسعار →',
-    'hero.note':'10,000 رمز مجاني كل شهر. إلى الأبد.',
-    'stats.tokens':'الرموز المعالجة','stats.devs':'المطورون','stats.uptime':'ضمان التوفر','stats.latency':'متوسط الاستجابة',
-    'features.title':'كل ما تحتاجه لبناء تطبيقات الذكاء الاصطناعي','features.sub':'مبني للمطورين الذين يتحركون بسرعة.',
-    'f1.title':'زمن استجابة فائق السرعة','f1.desc':'شبكة حافة عالمية بأوقات استجابة أقل من 100 مللي ثانية.',
-    'f2.title':'مفاتيح API بسيطة','f2.desc':'مفتاح واحد للوصول إلى GPT-4o وClaude وGemini والمزيد.',
-    'f3.title':'تحليلات فورية','f3.desc':'تتبع استخدام الرموز والتكاليف والأداء في لوحة التحكم.',
-    'f4.title':'ادفع حسب الاستخدام','f4.desc':'ابدأ مجاناً. ادفع فقط عند تجاوز حصتك الشهرية.',
-    'f5.title':'أمان المؤسسات','f5.desc':'متوافق مع SOC2. المفاتيح مشفرة، البيانات محمية.',
-    'f6.title':'تحويل تلقائي عند الفشل','f6.desc':'توجيه متعدد الموفرين يضمن 99.9٪ من وقت التشغيل.',
-    'pricing.title':'أسعار بسيطة وشفافة','pricing.sub':'ابدأ مجاناً. تطور مع نموك. بدون رسوم مخفية.',
-    'plan.month':'/شهر','plan.popular':'الأكثر شعبية',
-    'plan1.name':'مجاني','plan1.desc':'مثالي للتجربة','plan1.tokens':'10,000 رمز/شهر',
-    'plan1.f1':'10,000 رمز مجاني شهرياً','plan1.f2':'مفتاح API واحد','plan1.f3':'دعم المجتمع','plan1.f4':'حدود معدل قياسية','plan1.cta':'ابدأ مجاناً',
-    'plan2.name':'احترافي','plan2.desc':'للمطورين والفرق الصغيرة','plan2.tokens':'500,000 رمز/شهر',
-    'plan2.f1':'500,000 رمز شهرياً','plan2.f2':'5 مفاتيح API','plan2.f3':'دعم ذو أولوية','plan2.f4':'حدود معدل أعلى','plan2.f5':'تحليلات الاستخدام','plan2.f6':'دفع حسب الاستخدام بعد الحصة','plan2.cta':'ابدأ التجربة الاحترافية',
-    'plan3.name':'المؤسسات','plan3.desc':'لأحمال العمل الإنتاجية','plan3.tokens':'رموز غير محدودة',
-    'plan3.f1':'رموز غير محدودة','plan3.f2':'20 مفتاح API','plan3.f3':'دعم مخصص','plan3.f4':'حدود معدل مخصصة','plan3.f5':'تحليلات متقدمة','plan3.f6':'ضمان SLA','plan3.cta':'تواصل مع فريق المبيعات',
-    'table.title':'أسعار الرموز للدفع حسب الاستخدام','table.model':'النموذج','table.input':'الإدخال (لكل مليون رمز)','table.output':'الإخراج (لكل مليون رمز)',
-    'cta.title':'هل أنت مستعد للبدء؟','cta.desc':'انضم إلى أكثر من 50,000 مطور يستخدمون Accio.','cta.btn':'ابدأ مجاناً →',
-    'footer.copy':'© 2026 Accio. جميع الحقوق محفوظة.','footer.privacy':'الخصوصية','footer.terms':'الشروط','footer.docs':'التوثيق',
-  }
+// ─── 游戏数据 ───────────────────────────────────────────
+const GAMES = [
+  {id:1,title:'The Witcher 3: Wild Hunt',price:9.99,oldPrice:39.99,discount:75,rating:4.9,tags:['RPG','Open World'],cat:'rpg',img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&q=80',isNew:false},
+  {id:2,title:'GTA V: Premium Edition',price:14.99,oldPrice:29.99,discount:50,rating:4.7,tags:['Action','Open World'],cat:'action',img:'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&q=80',isNew:false},
+  {id:3,title:'Minecraft Java Edition',price:19.99,oldPrice:null,discount:0,rating:4.8,tags:['Sandbox','Creative'],cat:'indie',img:'https://images.unsplash.com/photo-1587653915936-5e0e3c4b2b1f?w=400&q=80',isNew:false},
+  {id:4,title:'Hollow Knight',price:7.99,oldPrice:14.99,discount:47,rating:4.9,tags:['Indie','Platformer'],cat:'indie',img:'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=400&q=80',isNew:false},
+  {id:5,title:'Baldur\'s Gate 3',price:49.99,oldPrice:null,discount:0,rating:5.0,tags:['RPG','Co-op'],cat:'rpg',img:'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=400&q=80',isNew:true},
+  {id:6,title:'FIFA 24',price:24.99,oldPrice:69.99,discount:64,rating:4.2,tags:['Sports','Multiplayer'],cat:'sports',img:'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&q=80',isNew:false},
+  {id:7,title:'Starfield',price:39.99,oldPrice:69.99,discount:43,rating:4.3,tags:['RPG','Space'],cat:'rpg',img:'https://images.unsplash.com/photo-1462332420958-a05d1e002413?w=400&q=80',isNew:true},
+  {id:8,title:'Hogwarts Legacy',price:29.99,oldPrice:59.99,discount:50,rating:4.6,tags:['RPG','Adventure'],cat:'action',img:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80',isNew:false},
+  {id:9,title:'Hades',price:6.99,oldPrice:24.99,discount:72,rating:4.9,tags:['Indie','Roguelike'],cat:'indie',img:'https://images.unsplash.com/photo-1543622748-5ee7237e8565?w=400&q=80',isNew:false},
+  {id:10,title:'Call of Duty: MW3',price:34.99,oldPrice:69.99,discount:50,rating:4.1,tags:['FPS','Multiplayer'],cat:'action',img:'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&q=80',isNew:true},
+  {id:11,title:'Forza Horizon 5',price:19.99,oldPrice:59.99,discount:67,rating:4.8,tags:['Racing','Open World'],cat:'sports',img:'https://images.unsplash.com/photo-1493238792000-8113da705763?w=400&q=80',isNew:false},
+  {id:12,title:'Stardew Valley',price:4.99,oldPrice:14.99,discount:67,rating:5.0,tags:['Indie','Simulation'],cat:'indie',img:'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80',isNew:false},
+];
+
+const CATS = {
+  all:  {en:'All',zh:'全部',ja:'全て',de:'Alle',ar:'الكل',icon:'🎮'},
+  action:{en:'Action',zh:'动作',ja:'アクション',de:'Action',ar:'أكشن',icon:'⚔️'},
+  rpg:  {en:'RPG',zh:'角色扮演',ja:'RPG',de:'Rollenspiel',ar:'تقمص أدوار',icon:'🧙'},
+  sports:{en:'Sports',zh:'体育',ja:'スポーツ',de:'Sport',ar:'رياضة',icon:'⚽'},
+  indie:{en:'Indie',zh:'独立游戏',ja:'インディー',de:'Indie',ar:'مستقل',icon:'🎨'},
 };
 
-// ── 国家 → 语言映射 ───────────────────────────────────────
-const COUNTRY_LANG = {
-  // 中文
-  CN:'zh', TW:'zh', HK:'zh', MO:'zh', SG:'zh',
-  // 日语
-  JP:'ja',
-  // 德语
-  DE:'de', AT:'de', CH:'de', LI:'de', LU:'de',
-  // 阿拉伯语
-  SA:'ar', AE:'ar', EG:'ar', KW:'ar', QA:'ar', BH:'ar',
-  OM:'ar', JO:'ar', LB:'ar', SY:'ar', IQ:'ar', YE:'ar',
-  MA:'ar', DZ:'ar', TN:'ar', LY:'ar', SD:'ar',
+// ─── 翻译数据 ───────────────────────────────────────────
+const T = {
+  en:{
+    'nav.search':'Search games...','nav.cart':'Cart',
+    'hero.badge':'Flash Sale — Up to 90% Off This Weekend',
+    'hero.h1a':'The World\'s Best','hero.h1b':'Game Store',
+    'hero.desc':'Instant delivery of game keys. 50,000+ titles. Lowest prices guaranteed.',
+    'hero.shop':'Shop Now →','hero.deals':'Today\'s Deals',
+    'hero.s1':'Games','hero.s2':'Happy Customers','hero.s3':'Key Delivery','hero.s4':'Support',
+    'feat.tag':'⭐ FEATURED DEAL','feat.desc':'The open-world RPG of the decade.','feat.buy':'Buy Now',
+    'games.title':'🔥 Hot Deals','games.all':'See All →',
+    'add.cart':'Add to Cart','added.cart':'Added ✓',
+    'cart.title':'🛒 Cart','cart.total':'Total','cart.checkout':'Checkout →','cart.empty':'Your cart is empty',
+    'promo.title':'🎁 Get 10% Off Your First Order','promo.desc':'Sign up and receive an exclusive discount code.','promo.btn':'Claim Discount →',
+    'footer.desc':'The world\'s largest cross-border game key store.','footer.store':'Store','footer.new':'New Releases','footer.deals':'Top Deals','footer.free':'Free Games','footer.pre':'Pre-orders',
+    'footer.support':'Support','footer.faq':'FAQ','footer.contact':'Contact Us','footer.refund':'Refund Policy','footer.delivery':'Key Delivery',
+    'footer.company':'Company','footer.about':'About Us','footer.privacy':'Privacy Policy','footer.terms':'Terms of Service','footer.affiliate':'Affiliate Program',
+    'footer.rights':'All rights reserved.','toast.added':'Added to cart!','checkout.msg':'Proceeding to checkout...',
+    'free':'FREE','off':'OFF',
+  },
+  zh:{
+    'nav.search':'搜索游戏...','nav.cart':'购物车',
+    'hero.badge':'限时特惠 — 本周末最高优惠90%',
+    'hero.h1a':'全球最大','hero.h1b':'游戏商城',
+    'hero.desc':'游戏激活码即时发货，50,000+ 款游戏，最低价格保证，支持中文界面。',
+    'hero.shop':'立即购买 →','hero.deals':'今日特惠',
+    'hero.s1':'款游戏','hero.s2':'快乐玩家','hero.s3':'即时发货','hero.s4':'全天支持',
+    'feat.tag':'⭐ 精选特惠','feat.desc':'十年最佳开放世界RPG，终极版本现已推出。','feat.buy':'立即购买',
+    'games.title':'🔥 热门特惠','games.all':'查看全部 →',
+    'add.cart':'加入购物车','added.cart':'已添加 ✓',
+    'cart.title':'🛒 购物车','cart.total':'合计','cart.checkout':'去结算 →','cart.empty':'购物车是空的',
+    'promo.title':'🎁 首单立减10%','promo.desc':'立即注册，专属优惠码即刻发送至您的邮箱。','promo.btn':'领取优惠 →',
+    'footer.desc':'全球最大的跨境游戏激活码商城，即时发货，价格最低，24小时客服。','footer.store':'商城','footer.new':'新品上架','footer.deals':'热门特惠','footer.free':'免费游戏','footer.pre':'预购',
+    'footer.support':'支持','footer.faq':'常见问题','footer.contact':'联系我们','footer.refund':'退款政策','footer.delivery':'发货说明',
+    'footer.company':'公司','footer.about':'关于我们','footer.privacy':'隐私政策','footer.terms':'服务条款','footer.affiliate':'联盟计划',
+    'footer.rights':'保留所有权利。','toast.added':'已加入购物车！','checkout.msg':'正在跳转结算...',
+    'free':'免费','off':'折扣',
+  },
+  ja:{
+    'nav.search':'ゲームを検索...','nav.cart':'カート',
+    'hero.badge':'フラッシュセール — 今週末最大90%オフ',
+    'hero.h1a':'世界最大の','hero.h1b':'ゲームストア',
+    'hero.desc':'ゲームキーを即時配信。50,000以上のタイトル。最低価格保証。',
+    'hero.shop':'今すぐ購入 →','hero.deals':'本日のお得情報',
+    'hero.s1':'ゲーム','hero.s2':'満足したユーザー','hero.s3':'即時配信','hero.s4':'サポート',
+    'feat.tag':'⭐ 注目セール','feat.desc':'10年に一度のオープンワールドRPG、究極版が登場。','feat.buy':'今すぐ購入',
+    'games.title':'🔥 人気セール','games.all':'すべて見る →',
+    'add.cart':'カートに追加','added.cart':'追加済み ✓',
+    'cart.title':'🛒 カート','cart.total':'合計','cart.checkout':'購入手続き →','cart.empty':'カートは空です',
+    'promo.title':'🎁 初回注文10%オフ','promo.desc':'今すぐ登録して、専用割引コードをメールで受け取ろう。','promo.btn':'割引を受け取る →',
+    'footer.desc':'世界最大のクロスボーダーゲームキーストア。','footer.store':'ストア','footer.new':'新着','footer.deals':'お得情報','footer.free':'無料ゲーム','footer.pre':'予約注文',
+    'footer.support':'サポート','footer.faq':'よくある質問','footer.contact':'お問い合わせ','footer.refund':'返金ポリシー','footer.delivery':'配信について',
+    'footer.company':'会社','footer.about':'会社概要','footer.privacy':'プライバシーポリシー','footer.terms':'利用規約','footer.affiliate':'アフィリエイト',
+    'footer.rights':'All rights reserved.','toast.added':'カートに追加しました！','checkout.msg':'チェックアウトに進んでいます...',
+    'free':'無料','off':'オフ',
+  },
+  de:{
+    'nav.search':'Spiele suchen...','nav.cart':'Warenkorb',
+    'hero.badge':'Flash-Sale — Bis zu 90% Rabatt dieses Wochenende',
+    'hero.h1a':'Der weltbeste','hero.h1b':'Spieleshop',
+    'hero.desc':'Sofortige Lieferung von Game Keys. 50.000+ Titel. Günstigste Preise garantiert.',
+    'hero.shop':'Jetzt kaufen →','hero.deals':'Heutige Angebote',
+    'hero.s1':'Spiele','hero.s2':'Zufriedene Kunden','hero.s3':'Sofortige Lieferung','hero.s4':'Support',
+    'feat.tag':'⭐ AUSGEWÄHLTES ANGEBOT','feat.desc':'Das Open-World-RPG des Jahrzehnts. Ultimate Edition.','feat.buy':'Jetzt kaufen',
+    'games.title':'🔥 Top-Angebote','games.all':'Alle anzeigen →',
+    'add.cart':'In den Warenkorb','added.cart':'Hinzugefügt ✓',
+    'cart.title':'🛒 Warenkorb','cart.total':'Gesamt','cart.checkout':'Zur Kasse →','cart.empty':'Ihr Warenkorb ist leer',
+    'promo.title':'🎁 10% Rabatt auf Ihre erste Bestellung','promo.desc':'Jetzt registrieren und exklusiven Rabattcode erhalten.','promo.btn':'Rabatt sichern →',
+    'footer.desc':'Der weltweit größte grenzüberschreitende Game-Key-Shop.','footer.store':'Shop','footer.new':'Neuerscheinungen','footer.deals':'Top-Angebote','footer.free':'Kostenlose Spiele','footer.pre':'Vorbestellungen',
+    'footer.support':'Support','footer.faq':'FAQ','footer.contact':'Kontakt','footer.refund':'Rückgaberichtlinie','footer.delivery':'Schlüssellieferung',
+    'footer.company':'Unternehmen','footer.about':'Über uns','footer.privacy':'Datenschutz','footer.terms':'Nutzungsbedingungen','footer.affiliate':'Partnerprogramm',
+    'footer.rights':'Alle Rechte vorbehalten.','toast.added':'Zum Warenkorb hinzugefügt!','checkout.msg':'Weiter zur Kasse...',
+    'free':'KOSTENLOS','off':'RABATT',
+  },
+  ar:{
+    'nav.search':'ابحث عن الألعاب...','nav.cart':'السلة',
+    'hero.badge':'تخفيضات سريعة — خصم يصل إلى 90% هذا الأسبوع',
+    'hero.h1a':'أكبر متجر','hero.h1b':'ألعاب في العالم',
+    'hero.desc':'تسليم فوري لمفاتيح الألعاب. أكثر من 50,000 لعبة. أقل الأسعار مضمونة.',
+    'hero.shop':'تسوق الآن →','hero.deals':'عروض اليوم',
+    'hero.s1':'لعبة','hero.s2':'عميل سعيد','hero.s3':'تسليم فوري','hero.s4':'دعم',
+    'feat.tag':'⭐ عرض مميز','feat.desc':'لعبة RPG العالم المفتوح لهذا العقد. الإصدار الكامل.','feat.buy':'اشتر الآن',
+    'games.title':'🔥 أفضل العروض','games.all':'عرض الكل →',
+    'add.cart':'أضف إلى السلة','added.cart':'تمت الإضافة ✓',
+    'cart.title':'🛒 سلة التسوق','cart.total':'الإجمالي','cart.checkout':'إتمام الشراء →','cart.empty':'سلة التسوق فارغة',
+    'promo.title':'🎁 احصل على 10% خصم في طلبك الأول','promo.desc':'سجل الآن واحصل على كود خصم حصري فورًا.','promo.btn':'احصل على الخصم →',
+    'footer.desc':'أكبر متجر عالمي لمفاتيح الألعاب. تسليم فوري، أقل الأسعار، دعم 24/7.','footer.store':'المتجر','footer.new':'إصدارات جديدة','footer.deals':'أفضل العروض','footer.free':'ألعاب مجانية','footer.pre':'الطلب المسبق',
+    'footer.support':'الدعم','footer.faq':'الأسئلة الشائعة','footer.contact':'اتصل بنا','footer.refund':'سياسة الاسترداد','footer.delivery':'تسليم المفاتيح',
+    'footer.company':'الشركة','footer.about':'من نحن','footer.privacy':'سياسة الخصوصية','footer.terms':'شروط الخدمة','footer.affiliate':'برنامج الإحالة',
+    'footer.rights':'جميع الحقوق محفوظة.','toast.added':'تمت الإضافة إلى السلة!','checkout.msg':'جارٍ الانتقال إلى الدفع...',
+    'free':'مجاني','off':'خصم',
+  },
 };
 
-let currentLang = 'en';
+const COUNTRY_LANG={CN:'zh',TW:'zh',HK:'zh',MO:'zh',SG:'zh',JP:'ja',DE:'de',AT:'de',CH:'de',SA:'ar',AE:'ar',EG:'ar',KW:'ar',QA:'ar',BH:'ar',OM:'ar',JO:'ar',LB:'ar',MA:'ar',DZ:'ar'};
 
-function applyLang(lang) {
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  currentLang = lang;
+// ─── 状态 ───────────────────────────────────────────────
+let currentLang='en', currentCat='all', cart=[], searchQuery='';
 
-  // 设置 html 属性
-  const html = document.documentElement;
-  html.setAttribute('lang', lang);
-  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+// ─── 语言 ───────────────────────────────────────────────
+function t(key){return(T[currentLang]||T.en)[key]||(T.en)[key]||key}
 
-  // 更新页面标题
-  const titles = { en: 'Accio — AI API Platform', zh: 'Accio — AI API 平台', ja: 'Accio — AI API プラットフォーム', de: 'Accio — KI API Plattform', ar: 'Accio — منصة AI API' };
-  document.title = titles[lang] || titles.en;
-
-  // 替换所有 data-i18n 元素
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) {
-      // h1 特殊处理（包含内嵌 span）
-      if (el.tagName === 'H1') {
-        el.innerHTML = t[key];
-      } else {
-        el.textContent = t[key];
-      }
-    }
+function applyLang(lang){
+  currentLang=lang;
+  const html=document.documentElement;
+  html.setAttribute('lang',lang);
+  html.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    const val=t(key);
+    if(val) el.textContent=val;
   });
-
-  // 高亮当前语言按钮
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    const btnLang = btn.getAttribute('onclick').match(/'(\w+)'/)?.[1];
-    btn.classList.toggle('active', btnLang === lang);
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key=el.getAttribute('data-i18n-placeholder');
+    const val=t(key);
+    if(val) el.placeholder=val;
   });
-
-  // 保存用户手动选择
-  try { localStorage.setItem('accio_lang', lang); } catch(e){}
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    const bl=btn.getAttribute('onclick').match(/'(\w+)'/)?.[1];
+    btn.classList.toggle('active',bl===lang);
+  });
+  renderCats();
+  renderGames();
+  renderCart();
+  try{localStorage.setItem('gv_lang',lang)}catch(e){}
 }
 
-function setLang(lang) {
+function setLang(lang){
+  try{localStorage.setItem('gv_lang_manual','1')}catch(e){}
   applyLang(lang);
-  try { localStorage.setItem('accio_lang_manual', '1'); } catch(e){}
 }
 
-async function detectLang() {
-  // 1. 优先使用手动选择
-  try {
-    if (localStorage.getItem('accio_lang_manual')) {
-      const saved = localStorage.getItem('accio_lang');
-      if (saved && TRANSLATIONS[saved]) return saved;
-    }
-  } catch(e){}
+async function detectLang(){
+  try{if(localStorage.getItem('gv_lang_manual')){const s=localStorage.getItem('gv_lang');if(s&&T[s])return s}}catch(e){}
+  const b=(navigator.language||'').toLowerCase();
+  if(b.startsWith('zh'))return'zh';
+  if(b.startsWith('ja'))return'ja';
+  if(b.startsWith('de'))return'de';
+  if(b.startsWith('ar'))return'ar';
+  try{
+    const res=await Promise.race([fetch('https://ipapi.co/json/').then(r=>r.json()),new Promise((_,rej)=>setTimeout(()=>rej(),3000))]);
+    const c=res.country_code||res.country;
+    if(c&&COUNTRY_LANG[c])return COUNTRY_LANG[c];
+  }catch(e){}
+  return'en';
+}
 
-  // 2. 浏览器语言快速匹配
-  const browserLang = (navigator.language || '').toLowerCase();
-  if (browserLang.startsWith('zh')) return 'zh';
-  if (browserLang.startsWith('ja')) return 'ja';
-  if (browserLang.startsWith('de')) return 'de';
-  if (browserLang.startsWith('ar')) return 'ar';
+// ─── 分类 ───────────────────────────────────────────────
+function renderCats(){
+  const tabs=document.getElementById('catTabs');
+  tabs.innerHTML=Object.entries(CATS).map(([key,cat])=>`
+    <button class="cat-tab${currentCat===key?' active':''}" onclick="setCat('${key}')">
+      ${cat.icon} ${cat[currentLang]||cat.en}
+    </button>`).join('');
+}
 
-  // 3. IP 地理位置检测
-  try {
-    const res = await Promise.race([
-      fetch('https://ipapi.co/json/').then(r => r.json()),
-      new Promise((_, reject) => setTimeout(() => reject('timeout'), 3000))
-    ]);
-    const country = res.country_code || res.country;
-    if (country && COUNTRY_LANG[country]) return COUNTRY_LANG[country];
-  } catch(e) {
-    // IP 检测失败，静默回退
+function setCat(cat){currentCat=cat;renderCats();renderGames()}
+
+// ─── 游戏列表 ───────────────────────────────────────────
+function renderGames(){
+  const grid=document.getElementById('gamesGrid');
+  let games=GAMES;
+  if(currentCat!=='all') games=games.filter(g=>g.cat===currentCat);
+  if(searchQuery) games=games.filter(g=>g.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  if(!games.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--muted)">🎮 No games found</div>`;return}
+  grid.innerHTML=games.map(g=>gameCard(g)).join('');
+}
+
+function gameCard(g){
+  const inCart=cart.find(c=>c.id===g.id);
+  return`<div class="game-card">
+    <div class="game-card-img">
+      <img src="${g.img}" alt="${g.title}" loading="lazy"/>
+      ${g.discount?`<div class="game-card-discount">-${g.discount}%</div>`:''}
+      ${g.isNew?`<div class="game-card-new">NEW</div>`:''}
+    </div>
+    <div class="game-card-body">
+      <div class="game-card-title">${g.title}</div>
+      <div class="game-meta">
+        ${g.tags.map(tag=>`<span class="game-tag">${tag}</span>`).join('')}
+        <span class="game-rating">★ ${g.rating}</span>
+      </div>
+      <div class="price-row">
+        <div class="price-block">
+          ${g.oldPrice?`<div class="old">$${g.oldPrice.toFixed(2)}</div>`:''}
+          <div class="${g.price===0?'free':'new'}">${g.price===0?t('free'):'$'+g.price.toFixed(2)}</div>
+        </div>
+        <button class="add-cart-btn${inCart?' added':''}" onclick="addToCart({id:${g.id},title:'${g.title.replace(/'/g,"\\'")}',price:${g.price},img:'${g.img}'})">
+          ${inCart?t('added.cart'):t('add.cart')}
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function filterGames(q){searchQuery=q;renderGames()}
+function scrollToGames(){document.getElementById('gamesSection').scrollIntoView({behavior:'smooth'})}
+
+// ─── 购物车 ───────────────────────────────────────────────
+function addToCart(item){
+  if(!cart.find(c=>c.id===item.id)) cart.push(item);
+  updateCartBadge();
+  renderGames();
+  showToast(t('toast.added'));
+}
+
+function removeFromCart(id){
+  cart=cart.filter(c=>c.id!==id);
+  updateCartBadge();
+  renderCart();
+  renderGames();
+}
+
+function updateCartBadge(){
+  const badge=document.getElementById('cartCount');
+  if(cart.length>0){badge.style.display='flex';badge.textContent=cart.length}
+  else badge.style.display='none';
+}
+
+function toggleCart(){
+  document.getElementById('cartOverlay').classList.toggle('open');
+  renderCart();
+}
+
+function closeCart(e){
+  if(e.target===document.getElementById('cartOverlay')) toggleCart();
+}
+
+function renderCart(){
+  const items=document.getElementById('cartItems');
+  const footer=document.getElementById('cartFooter');
+  if(!cart.length){
+    items.innerHTML=`<div class="cart-empty"><div class="icon">🎮</div><p>${t('cart.empty')}</p></div>`;
+    footer.style.display='none';
+    return;
   }
-
-  return 'en';
+  items.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.title}"/>
+      <div class="cart-item-info">
+        <div class="cart-item-title">${item.title}</div>
+        <div class="cart-item-price">${item.price===0?t('free'):'$'+item.price.toFixed(2)}</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>
+    </div>`).join('');
+  const total=cart.reduce((s,c)=>s+c.price,0);
+  document.getElementById('cartTotal').textContent='$'+total.toFixed(2);
+  footer.style.display='block';
+  document.querySelector('.cart-title')?.setAttribute && null;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    const val=t(key);
+    if(val) el.textContent=val;
+  });
 }
 
-// ── 初始化 ────────────────────────────────────────────────
-(async () => {
-  const lang = await detectLang();
-  applyLang(lang);
+function checkout(){
+  alert(t('checkout.msg'));
+}
 
-  // 隐藏 loading
-  const loading = document.getElementById('lang-loading');
+// ─── Toast ───────────────────────────────────────────────
+function showToast(msg){
+  const toast=document.getElementById('toast');
+  toast.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2500);
+}
+
+// ─── 初始化 ───────────────────────────────────────────────
+(async()=>{
+  const lang=await detectLang();
+  applyLang(lang);
+  const loading=document.getElementById('loading');
   loading.classList.add('hide');
-  setTimeout(() => loading.remove(), 500);
+  setTimeout(()=>loading.remove(),500);
 })();
 </script>
 </body>
