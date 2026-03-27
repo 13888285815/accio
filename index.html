@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accio — AI API Platform</title>
-  <meta name="description" content="One API for all AI models. Token-based billing, transparent pricing, zero surprises." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="One API for all AI models." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700;800&family=Noto+Sans+SC:wght@400;700;800&family=Noto+Sans+Arabic:wght@400;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --brand: #4f6ef7; --brand-dark: #3b5bdb; --brand-light: #eef1fe; }
+    html[lang="zh"] body, html[lang="ja"] body { font-family: 'Noto Sans SC', 'Noto Sans JP', 'Inter', sans-serif; }
+    html[lang="ar"] body { font-family: 'Noto Sans Arabic', sans-serif; }
     body { font-family: 'Inter', system-ui, sans-serif; color: #111827; background: #fff; }
     a { text-decoration: none; color: inherit; }
-    nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #f3f4f6; padding: 0 24px; }
+
+    /* RTL support */
+    html[dir="rtl"] .nav-inner,
+    html[dir="rtl"] .footer-inner { flex-direction: row-reverse; }
+    html[dir="rtl"] .hero-btns { flex-direction: row-reverse; }
+    html[dir="rtl"] .plan-features li { flex-direction: row-reverse; }
+    html[dir="rtl"] th:not(:first-child), html[dir="rtl"] td:not(:first-child) { text-align: left; }
+    html[dir="rtl"] th:first-child, html[dir="rtl"] td:first-child { text-align: right; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #f3f4f6; padding: 0 24px; }
     .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--brand); }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: var(--brand); }
     .nav-links { display: flex; gap: 28px; }
-    .nav-links a { font-size: 14px; color: #6b7280; }
+    .nav-links a { font-size: 14px; color: #6b7280; transition: color .2s; }
     .nav-links a:hover { color: #111827; }
-    .nav-btns { display: flex; gap: 10px; }
+    .nav-btns { display: flex; gap: 10px; align-items: center; }
+    .lang-switcher { display: flex; gap: 4px; margin-right: 12px; }
+    .lang-btn { border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 600; color: #6b7280; cursor: pointer; transition: all .2s; }
+    .lang-btn:hover, .lang-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
     .btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 14px; font-weight: 600; padding: 8px 18px; transition: all .2s; cursor: pointer; }
     .btn-outline { border: 1px solid #e5e7eb; color: #374151; background: #fff; }
     .btn-outline:hover { background: #f9fafb; }
     .btn-primary { background: var(--brand); color: #fff; border: none; }
     .btn-primary:hover { background: var(--brand-dark); }
+    .btn-lg { padding: 14px 32px; font-size: 15px; border-radius: 10px; }
+
+    /* HERO */
     .hero { padding: 100px 24px 80px; text-align: center; }
     .hero-badge { display: inline-flex; align-items: center; background: var(--brand-light); color: var(--brand); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; border: 1px solid #d0d9fc; }
-    .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; }
     .hero h1 span { color: var(--brand); }
-    .hero p { font-size: 18px; color: #6b7280; max-width: 560px; margin: 0 auto 36px; line-height: 1.7; }
+    .hero p { font-size: 18px; color: #6b7280; max-width: 560px; margin: 0 auto 36px; line-height: 1.75; }
     .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-lg { padding: 14px 32px; font-size: 15px; border-radius: 10px; }
     .hero-note { margin-top: 14px; font-size: 13px; color: #9ca3af; }
+
+    /* CODE */
     .code-section { padding: 0 24px 80px; }
     .code-wrap { max-width: 760px; margin: 0 auto; background: #0f172a; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
     .code-header { display: flex; align-items: center; gap: 6px; padding: 14px 18px; border-bottom: 1px solid #1e293b; }
@@ -38,22 +57,28 @@
     .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
     .code-filename { margin-left: 8px; font-size: 12px; color: #64748b; font-family: monospace; }
     .code-body { padding: 24px; overflow-x: auto; }
-    .code-body code { font-family: monospace; font-size: 13px; line-height: 1.8; color: #e2e8f0; white-space: pre; }
+    .code-body code { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; color: #e2e8f0; white-space: pre; }
     .kw{color:#f472b6}.fn{color:#60a5fa}.str{color:#a3e635}
+
+    /* STATS */
     .stats { background: #f9fafb; border-top: 1px solid #f3f4f6; border-bottom: 1px solid #f3f4f6; padding: 56px 24px; }
     .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align: center; }
     .stat-val { font-size: 40px; font-weight: 800; color: var(--brand); }
     .stat-label { font-size: 13px; color: #6b7280; margin-top: 6px; }
+
+    /* FEATURES */
     .features { padding: 96px 24px; }
     .section-title { text-align: center; margin-bottom: 56px; }
     .section-title h2 { font-size: clamp(28px,4vw,42px); font-weight: 800; letter-spacing: -0.5px; }
     .section-title p { font-size: 16px; color: #6b7280; margin-top: 12px; }
     .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 24px; }
-    .feature-card { border: 1px solid #e5e7eb; border-radius: 16px; padding: 28px; }
+    .feature-card { border: 1px solid #e5e7eb; border-radius: 16px; padding: 28px; transition: box-shadow .2s; }
     .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
     .feature-icon { font-size: 32px; margin-bottom: 16px; }
     .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .feature-card p { font-size: 14px; color: #6b7280; line-height: 1.7; }
+
+    /* PRICING */
     .pricing { background: #f9fafb; padding: 96px 24px; }
     .pricing-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 24px; }
     .plan-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 32px; position: relative; }
@@ -78,47 +103,75 @@
     .token-table-wrap { max-width: 1100px; margin: 48px auto 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 32px; overflow-x: auto; }
     .token-table-wrap h3 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { text-align: left; font-weight: 600; color: #6b7280; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
-    th:not(:first-child),td:not(:first-child) { text-align: right; }
+    th { font-weight: 600; color: #6b7280; padding: 10px 0; border-bottom: 1px solid #f3f4f6; text-align: left; }
+    th:not(:first-child), td:not(:first-child) { text-align: right; }
     td { padding: 12px 0; color: #374151; border-bottom: 1px solid #f9fafb; }
     td:first-child { font-weight: 600; color: #111827; }
+
+    /* CTA */
     .cta { padding: 96px 24px; text-align: center; }
     .cta h2 { font-size: clamp(28px,4vw,48px); font-weight: 800; margin-bottom: 16px; }
     .cta p { font-size: 17px; color: #6b7280; margin-bottom: 36px; }
+
+    /* FOOTER */
     footer { border-top: 1px solid #f3f4f6; padding: 36px 24px; }
     .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     .footer-links { display: flex; gap: 24px; }
     .footer-links a { font-size: 13px; color: #9ca3af; }
     .footer-links a:hover { color: #374151; }
     .footer-copy { font-size: 13px; color: #9ca3af; }
-    @media(max-width:640px){.nav-links{display:none}.stats-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{flex-direction:column;text-align:center}}
+
+    /* Loading overlay */
+    #lang-loading { position: fixed; inset: 0; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity .4s; }
+    #lang-loading.hide { opacity: 0; pointer-events: none; }
+    .spinner { width: 36px; height: 36px; border: 3px solid #e5e7eb; border-top-color: var(--brand); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media(max-width:768px) { .nav-links { display: none; } .lang-switcher { display: none; } }
+    @media(max-width:640px) { .stats-grid { grid-template-columns: repeat(2,1fr); } .footer-inner { flex-direction: column; text-align: center; } }
   </style>
 </head>
 <body>
+
+<!-- Loading -->
+<div id="lang-loading"><div class="spinner"></div></div>
+
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo">⚡ Accio</a>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#docs">Docs</a>
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+      <a href="#docs" data-i18n="nav.docs">Docs</a>
     </div>
     <div class="nav-btns">
-      <a href="sign-in.html" class="btn btn-outline">Sign In</a>
-      <a href="sign-up.html" class="btn btn-primary">Get Started Free</a>
+      <div class="lang-switcher">
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        <button class="lang-btn" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" onclick="setLang('ar')">عربي</button>
+      </div>
+      <a href="sign-in.html" class="btn btn-outline" data-i18n="nav.signin">Sign In</a>
+      <a href="sign-up.html" class="btn btn-primary" data-i18n="nav.signup">Get Started Free</a>
     </div>
   </div>
 </nav>
+
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🎉 Now supporting GPT-4o · Claude 3.5 · Gemini 1.5</div>
-  <h1>One API for<br><span>all AI models</span></h1>
-  <p>Access the world's best AI through a single unified API. Token-based billing, transparent pricing, zero surprises.</p>
+  <div class="hero-badge" data-i18n="hero.badge">🎉 Now supporting GPT-4o · Claude 3.5 · Gemini 1.5</div>
+  <h1 data-i18n="hero.h1">One API for<br><span data-i18n="hero.h1span">all AI models</span></h1>
+  <p data-i18n="hero.desc">Access the world's best AI through a single unified API. Token-based billing, transparent pricing, zero surprises.</p>
   <div class="hero-btns">
-    <a href="sign-up.html" class="btn btn-primary btn-lg">Start for Free — No credit card</a>
-    <a href="#pricing" class="btn btn-outline btn-lg">View Pricing →</a>
+    <a href="sign-up.html" class="btn btn-primary btn-lg" data-i18n="hero.cta1">Start for Free — No credit card</a>
+    <a href="#pricing" class="btn btn-outline btn-lg" data-i18n="hero.cta2">View Pricing →</a>
   </div>
-  <p class="hero-note">10,000 free tokens every month. Forever.</p>
+  <p class="hero-note" data-i18n="hero.note">10,000 free tokens every month. Forever.</p>
 </section>
+
+<!-- CODE -->
 <section class="code-section">
   <div class="code-wrap">
     <div class="code-header">
@@ -138,55 +191,93 @@ response = requests.<span class="fn">post</span>(
 <span class="fn">print</span>(response.json())</code></div>
   </div>
 </section>
+
+<!-- STATS -->
 <section class="stats">
   <div class="stats-grid">
-    <div><div class="stat-val">1B+</div><div class="stat-label">Tokens Processed</div></div>
-    <div><div class="stat-val">50k+</div><div class="stat-label">Developers</div></div>
-    <div><div class="stat-val">99.9%</div><div class="stat-label">Uptime SLA</div></div>
-    <div><div class="stat-val">&lt;100ms</div><div class="stat-label">Avg Latency</div></div>
+    <div><div class="stat-val">1B+</div><div class="stat-label" data-i18n="stats.tokens">Tokens Processed</div></div>
+    <div><div class="stat-val">50k+</div><div class="stat-label" data-i18n="stats.devs">Developers</div></div>
+    <div><div class="stat-val">99.9%</div><div class="stat-label" data-i18n="stats.uptime">Uptime SLA</div></div>
+    <div><div class="stat-val">&lt;100ms</div><div class="stat-label" data-i18n="stats.latency">Avg Latency</div></div>
   </div>
 </section>
+
+<!-- FEATURES -->
 <section class="features" id="features">
-  <div class="section-title"><h2>Everything you need to ship AI</h2><p>Built for developers who move fast.</p></div>
+  <div class="section-title">
+    <h2 data-i18n="features.title">Everything you need to ship AI</h2>
+    <p data-i18n="features.sub">Built for developers who move fast.</p>
+  </div>
   <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon">⚡</div><h3>Ultra Low Latency</h3><p>Global edge network with &lt;100ms response times worldwide.</p></div>
-    <div class="feature-card"><div class="feature-icon">🔑</div><h3>Simple API Keys</h3><p>One key to access GPT-4o, Claude, Gemini and more through a unified interface.</p></div>
-    <div class="feature-card"><div class="feature-icon">📊</div><h3>Real-time Analytics</h3><p>Track token usage, costs, and performance in your dashboard.</p></div>
-    <div class="feature-card"><div class="feature-icon">💳</div><h3>Pay As You Go</h3><p>Start free. Only pay when you exceed your monthly quota. No minimums.</p></div>
-    <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Enterprise Security</h3><p>SOC2 compliant. Keys are hashed, data encrypted at rest and in transit.</p></div>
-    <div class="feature-card"><div class="feature-icon">🔄</div><h3>Automatic Failover</h3><p>Multi-provider routing ensures 99.9% uptime SLA for production workloads.</p></div>
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3 data-i18n="f1.title">Ultra Low Latency</h3><p data-i18n="f1.desc">Global edge network with &lt;100ms response times worldwide.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔑</div><h3 data-i18n="f2.title">Simple API Keys</h3><p data-i18n="f2.desc">One key to access GPT-4o, Claude, Gemini and more.</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3 data-i18n="f3.title">Real-time Analytics</h3><p data-i18n="f3.desc">Track token usage, costs, and performance in your dashboard.</p></div>
+    <div class="feature-card"><div class="feature-icon">💳</div><h3 data-i18n="f4.title">Pay As You Go</h3><p data-i18n="f4.desc">Start free. Only pay when you exceed your monthly quota.</p></div>
+    <div class="feature-card"><div class="feature-icon">🛡️</div><h3 data-i18n="f5.title">Enterprise Security</h3><p data-i18n="f5.desc">SOC2 compliant. Keys hashed, data encrypted at rest.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔄</div><h3 data-i18n="f6.title">Automatic Failover</h3><p data-i18n="f6.desc">Multi-provider routing ensures 99.9% uptime SLA.</p></div>
   </div>
 </section>
+
+<!-- PRICING -->
 <section class="pricing" id="pricing">
-  <div class="section-title"><h2>Simple, transparent pricing</h2><p>Start free. Scale as you grow. No hidden fees.</p></div>
+  <div class="section-title">
+    <h2 data-i18n="pricing.title">Simple, transparent pricing</h2>
+    <p data-i18n="pricing.sub">Start free. Scale as you grow. No hidden fees.</p>
+  </div>
   <div class="pricing-grid">
     <div class="plan-card">
-      <div class="plan-name">Free</div><div class="plan-desc">Perfect for experimenting</div>
-      <div class="plan-price"><strong>$0</strong><span>/month</span></div>
-      <div class="plan-tokens">10,000 tokens/mo</div>
-      <ul class="plan-features"><li>10,000 free tokens/month</li><li>1 API key</li><li>Community support</li><li>Standard rate limits</li></ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-default">Get Started Free</a>
+      <div class="plan-name" data-i18n="plan1.name">Free</div>
+      <div class="plan-desc" data-i18n="plan1.desc">Perfect for experimenting</div>
+      <div class="plan-price"><strong>$0</strong><span data-i18n="plan.month">/month</span></div>
+      <div class="plan-tokens" data-i18n="plan1.tokens">10,000 tokens/mo</div>
+      <ul class="plan-features">
+        <li data-i18n="plan1.f1">10,000 free tokens/month</li>
+        <li data-i18n="plan1.f2">1 API key</li>
+        <li data-i18n="plan1.f3">Community support</li>
+        <li data-i18n="plan1.f4">Standard rate limits</li>
+      </ul>
+      <a href="sign-up.html" class="plan-btn plan-btn-default" data-i18n="plan1.cta">Get Started Free</a>
     </div>
     <div class="plan-card highlight">
-      <div class="plan-badge">MOST POPULAR</div>
-      <div class="plan-name">Pro</div><div class="plan-desc">For developers &amp; small teams</div>
-      <div class="plan-price"><strong>$29</strong><span>/month</span></div>
-      <div class="plan-tokens">500,000 tokens/mo</div>
-      <ul class="plan-features"><li>500,000 tokens/month</li><li>5 API keys</li><li>Priority support</li><li>Higher rate limits</li><li>Usage analytics</li><li>Pay-as-you-go after quota</li></ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-highlight">Start Pro Trial</a>
+      <div class="plan-badge" data-i18n="plan.popular">MOST POPULAR</div>
+      <div class="plan-name" data-i18n="plan2.name">Pro</div>
+      <div class="plan-desc" data-i18n="plan2.desc">For developers &amp; small teams</div>
+      <div class="plan-price"><strong>$29</strong><span data-i18n="plan.month">/month</span></div>
+      <div class="plan-tokens" data-i18n="plan2.tokens">500,000 tokens/mo</div>
+      <ul class="plan-features">
+        <li data-i18n="plan2.f1">500,000 tokens/month</li>
+        <li data-i18n="plan2.f2">5 API keys</li>
+        <li data-i18n="plan2.f3">Priority support</li>
+        <li data-i18n="plan2.f4">Higher rate limits</li>
+        <li data-i18n="plan2.f5">Usage analytics</li>
+        <li data-i18n="plan2.f6">Pay-as-you-go after quota</li>
+      </ul>
+      <a href="sign-up.html" class="plan-btn plan-btn-highlight" data-i18n="plan2.cta">Start Pro Trial</a>
     </div>
     <div class="plan-card">
-      <div class="plan-name">Enterprise</div><div class="plan-desc">For production workloads</div>
-      <div class="plan-price"><strong>$199</strong><span>/month</span></div>
-      <div class="plan-tokens">Unlimited tokens</div>
-      <ul class="plan-features"><li>Unlimited tokens</li><li>20 API keys</li><li>Dedicated support</li><li>Custom rate limits</li><li>Advanced analytics</li><li>SLA guarantee</li></ul>
-      <a href="sign-up.html" class="plan-btn plan-btn-default">Contact Sales</a>
+      <div class="plan-name" data-i18n="plan3.name">Enterprise</div>
+      <div class="plan-desc" data-i18n="plan3.desc">For production workloads</div>
+      <div class="plan-price"><strong>$199</strong><span data-i18n="plan.month">/month</span></div>
+      <div class="plan-tokens" data-i18n="plan3.tokens">Unlimited tokens</div>
+      <ul class="plan-features">
+        <li data-i18n="plan3.f1">Unlimited tokens</li>
+        <li data-i18n="plan3.f2">20 API keys</li>
+        <li data-i18n="plan3.f3">Dedicated support</li>
+        <li data-i18n="plan3.f4">Custom rate limits</li>
+        <li data-i18n="plan3.f5">Advanced analytics</li>
+        <li data-i18n="plan3.f6">SLA guarantee</li>
+      </ul>
+      <a href="sign-up.html" class="plan-btn plan-btn-default" data-i18n="plan3.cta">Contact Sales</a>
     </div>
   </div>
   <div class="token-table-wrap">
-    <h3>Pay-as-you-go Token Pricing</h3>
+    <h3 data-i18n="table.title">Pay-as-you-go Token Pricing</h3>
     <table>
-      <thead><tr><th>Model</th><th>Input (per 1M tokens)</th><th>Output (per 1M tokens)</th></tr></thead>
+      <thead><tr>
+        <th data-i18n="table.model">Model</th>
+        <th data-i18n="table.input">Input (per 1M tokens)</th>
+        <th data-i18n="table.output">Output (per 1M tokens)</th>
+      </tr></thead>
       <tbody>
         <tr><td>GPT-4o</td><td>$5.00</td><td>$15.00</td></tr>
         <tr><td>GPT-4o Mini</td><td>$0.15</td><td>$0.60</td></tr>
@@ -197,17 +288,275 @@ response = requests.<span class="fn">post</span>(
     </table>
   </div>
 </section>
+
+<!-- CTA -->
 <section class="cta">
-  <h2>Ready to build?</h2>
-  <p>Join 50,000+ developers already using Accio.</p>
-  <a href="sign-up.html" class="btn btn-primary btn-lg">Start for Free →</a>
+  <h2 data-i18n="cta.title">Ready to build?</h2>
+  <p data-i18n="cta.desc">Join 50,000+ developers already using Accio.</p>
+  <a href="sign-up.html" class="btn btn-primary btn-lg" data-i18n="cta.btn">Start for Free →</a>
 </section>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <a href="/" class="logo">⚡ Accio</a>
-    <div class="footer-copy">© 2026 Accio. All rights reserved.</div>
-    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Docs</a></div>
+    <div class="footer-copy" data-i18n="footer.copy">© 2026 Accio. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#" data-i18n="footer.privacy">Privacy</a>
+      <a href="#" data-i18n="footer.terms">Terms</a>
+      <a href="#" data-i18n="footer.docs">Docs</a>
+    </div>
   </div>
 </footer>
+
+<script>
+// ── 翻译数据 ──────────────────────────────────────────────
+const TRANSLATIONS = {
+  en: {
+    'nav.features':'Features','nav.pricing':'Pricing','nav.docs':'Docs',
+    'nav.signin':'Sign In','nav.signup':'Get Started Free',
+    'hero.badge':'🎉 Now supporting GPT-4o · Claude 3.5 · Gemini 1.5',
+    'hero.h1':'One API for<br><span>all AI models</span>',
+    'hero.h1span':'all AI models',
+    'hero.desc':"Access the world's best AI through a single unified API. Token-based billing, transparent pricing, zero surprises.",
+    'hero.cta1':'Start for Free — No credit card','hero.cta2':'View Pricing →',
+    'hero.note':'10,000 free tokens every month. Forever.',
+    'stats.tokens':'Tokens Processed','stats.devs':'Developers','stats.uptime':'Uptime SLA','stats.latency':'Avg Latency',
+    'features.title':'Everything you need to ship AI','features.sub':'Built for developers who move fast.',
+    'f1.title':'Ultra Low Latency','f1.desc':'Global edge network with <100ms response times worldwide.',
+    'f2.title':'Simple API Keys','f2.desc':'One key to access GPT-4o, Claude, Gemini and more.',
+    'f3.title':'Real-time Analytics','f3.desc':'Track token usage, costs, and performance in your dashboard.',
+    'f4.title':'Pay As You Go','f4.desc':'Start free. Only pay when you exceed your monthly quota.',
+    'f5.title':'Enterprise Security','f5.desc':'SOC2 compliant. Keys hashed, data encrypted at rest.',
+    'f6.title':'Automatic Failover','f6.desc':'Multi-provider routing ensures 99.9% uptime SLA.',
+    'pricing.title':'Simple, transparent pricing','pricing.sub':'Start free. Scale as you grow. No hidden fees.',
+    'plan.month':'/month','plan.popular':'MOST POPULAR',
+    'plan1.name':'Free','plan1.desc':'Perfect for experimenting','plan1.tokens':'10,000 tokens/mo',
+    'plan1.f1':'10,000 free tokens/month','plan1.f2':'1 API key','plan1.f3':'Community support','plan1.f4':'Standard rate limits','plan1.cta':'Get Started Free',
+    'plan2.name':'Pro','plan2.desc':'For developers & small teams','plan2.tokens':'500,000 tokens/mo',
+    'plan2.f1':'500,000 tokens/month','plan2.f2':'5 API keys','plan2.f3':'Priority support','plan2.f4':'Higher rate limits','plan2.f5':'Usage analytics','plan2.f6':'Pay-as-you-go after quota','plan2.cta':'Start Pro Trial',
+    'plan3.name':'Enterprise','plan3.desc':'For production workloads','plan3.tokens':'Unlimited tokens',
+    'plan3.f1':'Unlimited tokens','plan3.f2':'20 API keys','plan3.f3':'Dedicated support','plan3.f4':'Custom rate limits','plan3.f5':'Advanced analytics','plan3.f6':'SLA guarantee','plan3.cta':'Contact Sales',
+    'table.title':'Pay-as-you-go Token Pricing','table.model':'Model','table.input':'Input (per 1M tokens)','table.output':'Output (per 1M tokens)',
+    'cta.title':'Ready to build?','cta.desc':'Join 50,000+ developers already using Accio.','cta.btn':'Start for Free →',
+    'footer.copy':'© 2026 Accio. All rights reserved.','footer.privacy':'Privacy','footer.terms':'Terms','footer.docs':'Docs',
+  },
+  zh: {
+    'nav.features':'功能','nav.pricing':'定价','nav.docs':'文档',
+    'nav.signin':'登录','nav.signup':'免费开始',
+    'hero.badge':'🎉 现已支持 GPT-4o · Claude 3.5 · Gemini 1.5',
+    'hero.h1':'一个 API<br><span>接入所有 AI 模型</span>',
+    'hero.h1span':'接入所有 AI 模型',
+    'hero.desc':'通过单一统一 API 访问全球最强 AI 模型。基于 Token 计费，价格透明，零隐藏费用。',
+    'hero.cta1':'免费开始 — 无需信用卡','hero.cta2':'查看定价 →',
+    'hero.note':'每月赠送 10,000 个免费 Token，永久有效。',
+    'stats.tokens':'已处理 Token','stats.devs':'开发者','stats.uptime':'可用性 SLA','stats.latency':'平均延迟',
+    'features.title':'一切都为 AI 开发而生','features.sub':'专为快速迭代的开发者打造。',
+    'f1.title':'超低延迟','f1.desc':'全球边缘网络，全球响应时间低于 100ms。',
+    'f2.title':'简单 API Key','f2.desc':'一个 Key 访问 GPT-4o、Claude、Gemini 等所有模型。',
+    'f3.title':'实时分析','f3.desc':'在仪表盘中追踪 Token 用量、费用和性能。',
+    'f4.title':'按量付费','f4.desc':'免费起步，超出配额后再付费，无最低消费。',
+    'f5.title':'企业级安全','f5.desc':'符合 SOC2 标准，Key 加密存储，数据静态加密。',
+    'f6.title':'自动故障转移','f6.desc':'多供应商路由确保 99.9% 的可用性 SLA。',
+    'pricing.title':'简单透明的定价','pricing.sub':'免费起步，按需扩展，无隐藏费用。',
+    'plan.month':'/月','plan.popular':'最受欢迎',
+    'plan1.name':'免费版','plan1.desc':'适合探索体验','plan1.tokens':'每月 1 万 Token',
+    'plan1.f1':'每月 10,000 免费 Token','plan1.f2':'1 个 API Key','plan1.f3':'社区支持','plan1.f4':'标准速率限制','plan1.cta':'免费开始',
+    'plan2.name':'专业版','plan2.desc':'适合开发者和小团队','plan2.tokens':'每月 50 万 Token',
+    'plan2.f1':'每月 500,000 Token','plan2.f2':'5 个 API Key','plan2.f3':'优先支持','plan2.f4':'更高速率限制','plan2.f5':'用量分析','plan2.f6':'超出配额后按量计费','plan2.cta':'开始专业版试用',
+    'plan3.name':'企业版','plan3.desc':'适合生产级工作负载','plan3.tokens':'无限 Token',
+    'plan3.f1':'无限 Token','plan3.f2':'20 个 API Key','plan3.f3':'专属支持','plan3.f4':'自定义速率限制','plan3.f5':'高级分析','plan3.f6':'SLA 保障','plan3.cta':'联系销售',
+    'table.title':'按量计费 Token 定价','table.model':'模型','table.input':'输入（每 100 万 Token）','table.output':'输出（每 100 万 Token）',
+    'cta.title':'准备好开始了吗？','cta.desc':'加入已有 50,000+ 名开发者的 Accio。','cta.btn':'免费开始 →',
+    'footer.copy':'© 2026 Accio. 保留所有权利。','footer.privacy':'隐私政策','footer.terms':'服务条款','footer.docs':'文档',
+  },
+  ja: {
+    'nav.features':'機能','nav.pricing':'料金','nav.docs':'ドキュメント',
+    'nav.signin':'ログイン','nav.signup':'無料で始める',
+    'hero.badge':'🎉 GPT-4o · Claude 3.5 · Gemini 1.5 に対応',
+    'hero.h1':'すべての AI モデルに<br><span>一つの API で</span>',
+    'hero.h1span':'一つの API で',
+    'hero.desc':'統合された単一 API で世界最高の AI モデルにアクセス。トークンベースの課金、透明な料金体系。',
+    'hero.cta1':'無料で始める — クレジットカード不要','hero.cta2':'料金を見る →',
+    'hero.note':'毎月 10,000 トークン無料。永久に。',
+    'stats.tokens':'処理済みトークン','stats.devs':'開発者数','stats.uptime':'稼働率 SLA','stats.latency':'平均レイテンシ',
+    'features.title':'AI 開発に必要なすべて','features.sub':'スピードを重視する開発者のために。',
+    'f1.title':'超低レイテンシ','f1.desc':'グローバルエッジネットワークで世界中 100ms 以下。',
+    'f2.title':'シンプルな API キー','f2.desc':'1 つのキーで GPT-4o、Claude、Gemini などにアクセス。',
+    'f3.title':'リアルタイム分析','f3.desc':'ダッシュボードでトークン使用量・コスト・パフォーマンスを追跡。',
+    'f4.title':'従量課金','f4.desc':'無料から始めて、クォータを超えた分だけ支払う。',
+    'f5.title':'エンタープライズセキュリティ','f5.desc':'SOC2 準拠。キーはハッシュ化、データは暗号化。',
+    'f6.title':'自動フェイルオーバー','f6.desc':'マルチプロバイダールーティングで 99.9% の稼働率を保証。',
+    'pricing.title':'シンプルで透明な料金','pricing.sub':'無料から始めて、成長に合わせてスケール。',
+    'plan.month':'/月','plan.popular':'最も人気',
+    'plan1.name':'無料','plan1.desc':'試してみるのに最適','plan1.tokens':'月 10,000 トークン',
+    'plan1.f1':'月 10,000 無料トークン','plan1.f2':'API キー 1 つ','plan1.f3':'コミュニティサポート','plan1.f4':'標準レート制限','plan1.cta':'無料で始める',
+    'plan2.name':'プロ','plan2.desc':'開発者・小規模チーム向け','plan2.tokens':'月 500,000 トークン',
+    'plan2.f1':'月 500,000 トークン','plan2.f2':'API キー 5 つ','plan2.f3':'優先サポート','plan2.f4':'高レート制限','plan2.f5':'使用状況分析','plan2.f6':'クォータ超過後は従量課金','plan2.cta':'プロを始める',
+    'plan3.name':'エンタープライズ','plan3.desc':'本番ワークロード向け','plan3.tokens':'無制限トークン',
+    'plan3.f1':'無制限トークン','plan3.f2':'API キー 20 個','plan3.f3':'専任サポート','plan3.f4':'カスタムレート制限','plan3.f5':'高度な分析','plan3.f6':'SLA 保証','plan3.cta':'営業に問い合わせ',
+    'table.title':'従量課金トークン料金','table.model':'モデル','table.input':'入力（100 万トークンあたり）','table.output':'出力（100 万トークンあたり）',
+    'cta.title':'さっそく始めましょう','cta.desc':'50,000 人以上の開発者が Accio を利用中。','cta.btn':'無料で始める →',
+    'footer.copy':'© 2026 Accio. All rights reserved.','footer.privacy':'プライバシー','footer.terms':'利用規約','footer.docs':'ドキュメント',
+  },
+  de: {
+    'nav.features':'Funktionen','nav.pricing':'Preise','nav.docs':'Dokumentation',
+    'nav.signin':'Anmelden','nav.signup':'Kostenlos starten',
+    'hero.badge':'🎉 Jetzt mit GPT-4o · Claude 3.5 · Gemini 1.5',
+    'hero.h1':'Eine API für<br><span>alle KI-Modelle</span>',
+    'hero.h1span':'alle KI-Modelle',
+    'hero.desc':'Zugriff auf die besten KI-Modelle der Welt über eine einheitliche API. Token-basierte Abrechnung, transparente Preise.',
+    'hero.cta1':'Kostenlos starten — Keine Kreditkarte','hero.cta2':'Preise ansehen →',
+    'hero.note':'10.000 kostenlose Token jeden Monat. Für immer.',
+    'stats.tokens':'Verarbeitete Token','stats.devs':'Entwickler','stats.uptime':'Verfügbarkeit SLA','stats.latency':'Ø Latenz',
+    'features.title':'Alles für die KI-Entwicklung','features.sub':'Gebaut für Entwickler, die schnell liefern.',
+    'f1.title':'Extrem niedrige Latenz','f1.desc':'Globales Edge-Netzwerk mit <100ms Antwortzeiten weltweit.',
+    'f2.title':'Einfache API-Schlüssel','f2.desc':'Ein Schlüssel für GPT-4o, Claude, Gemini und mehr.',
+    'f3.title':'Echtzeit-Analysen','f3.desc':'Verfolgen Sie Token-Nutzung, Kosten und Leistung im Dashboard.',
+    'f4.title':'Pay As You Go','f4.desc':'Kostenlos starten. Nur zahlen wenn Sie Ihr Kontingent überschreiten.',
+    'f5.title':'Unternehmenssicherheit','f5.desc':'SOC2-konform. Schlüssel gehasht, Daten verschlüsselt.',
+    'f6.title':'Automatischer Failover','f6.desc':'Multi-Provider-Routing garantiert 99,9% Verfügbarkeit.',
+    'pricing.title':'Einfache, transparente Preise','pricing.sub':'Kostenlos starten. Skalieren nach Bedarf. Keine versteckten Gebühren.',
+    'plan.month':'/Monat','plan.popular':'BELIEBTESTE',
+    'plan1.name':'Kostenlos','plan1.desc':'Perfekt zum Ausprobieren','plan1.tokens':'10.000 Token/Monat',
+    'plan1.f1':'10.000 kostenlose Token/Monat','plan1.f2':'1 API-Schlüssel','plan1.f3':'Community-Support','plan1.f4':'Standard-Ratenlimits','plan1.cta':'Kostenlos starten',
+    'plan2.name':'Pro','plan2.desc':'Für Entwickler & kleine Teams','plan2.tokens':'500.000 Token/Monat',
+    'plan2.f1':'500.000 Token/Monat','plan2.f2':'5 API-Schlüssel','plan2.f3':'Prioritäts-Support','plan2.f4':'Höhere Ratenlimits','plan2.f5':'Nutzungsanalysen','plan2.f6':'Pay-as-you-go nach Kontingent','plan2.cta':'Pro-Testversion starten',
+    'plan3.name':'Enterprise','plan3.desc':'Für Produktions-Workloads','plan3.tokens':'Unbegrenzte Token',
+    'plan3.f1':'Unbegrenzte Token','plan3.f2':'20 API-Schlüssel','plan3.f3':'Dedizierter Support','plan3.f4':'Benutzerdefinierte Ratenlimits','plan3.f5':'Erweiterte Analysen','plan3.f6':'SLA-Garantie','plan3.cta':'Vertrieb kontaktieren',
+    'table.title':'Token-Preise für Pay-as-you-go','table.model':'Modell','table.input':'Eingabe (pro 1M Token)','table.output':'Ausgabe (pro 1M Token)',
+    'cta.title':'Bereit loszulegen?','cta.desc':'Schließen Sie sich 50.000+ Entwicklern an, die Accio nutzen.','cta.btn':'Kostenlos starten →',
+    'footer.copy':'© 2026 Accio. Alle Rechte vorbehalten.','footer.privacy':'Datenschutz','footer.terms':'Nutzungsbedingungen','footer.docs':'Dokumentation',
+  },
+  ar: {
+    'nav.features':'المميزات','nav.pricing':'الأسعار','nav.docs':'التوثيق',
+    'nav.signin':'تسجيل الدخول','nav.signup':'ابدأ مجاناً',
+    'hero.badge':'🎉 يدعم الآن GPT-4o · Claude 3.5 · Gemini 1.5',
+    'hero.h1':'واجهة برمجية واحدة<br><span>لجميع نماذج الذكاء الاصطناعي</span>',
+    'hero.h1span':'لجميع نماذج الذكاء الاصطناعي',
+    'hero.desc':'وصول إلى أفضل نماذج الذكاء الاصطناعي في العالم عبر API موحدة. فوترة قائمة على الرموز، أسعار شفافة، بدون مفاجآت.',
+    'hero.cta1':'ابدأ مجاناً — بدون بطاقة ائتمان','hero.cta2':'عرض الأسعار →',
+    'hero.note':'10,000 رمز مجاني كل شهر. إلى الأبد.',
+    'stats.tokens':'الرموز المعالجة','stats.devs':'المطورون','stats.uptime':'ضمان التوفر','stats.latency':'متوسط الاستجابة',
+    'features.title':'كل ما تحتاجه لبناء تطبيقات الذكاء الاصطناعي','features.sub':'مبني للمطورين الذين يتحركون بسرعة.',
+    'f1.title':'زمن استجابة فائق السرعة','f1.desc':'شبكة حافة عالمية بأوقات استجابة أقل من 100 مللي ثانية.',
+    'f2.title':'مفاتيح API بسيطة','f2.desc':'مفتاح واحد للوصول إلى GPT-4o وClaude وGemini والمزيد.',
+    'f3.title':'تحليلات فورية','f3.desc':'تتبع استخدام الرموز والتكاليف والأداء في لوحة التحكم.',
+    'f4.title':'ادفع حسب الاستخدام','f4.desc':'ابدأ مجاناً. ادفع فقط عند تجاوز حصتك الشهرية.',
+    'f5.title':'أمان المؤسسات','f5.desc':'متوافق مع SOC2. المفاتيح مشفرة، البيانات محمية.',
+    'f6.title':'تحويل تلقائي عند الفشل','f6.desc':'توجيه متعدد الموفرين يضمن 99.9٪ من وقت التشغيل.',
+    'pricing.title':'أسعار بسيطة وشفافة','pricing.sub':'ابدأ مجاناً. تطور مع نموك. بدون رسوم مخفية.',
+    'plan.month':'/شهر','plan.popular':'الأكثر شعبية',
+    'plan1.name':'مجاني','plan1.desc':'مثالي للتجربة','plan1.tokens':'10,000 رمز/شهر',
+    'plan1.f1':'10,000 رمز مجاني شهرياً','plan1.f2':'مفتاح API واحد','plan1.f3':'دعم المجتمع','plan1.f4':'حدود معدل قياسية','plan1.cta':'ابدأ مجاناً',
+    'plan2.name':'احترافي','plan2.desc':'للمطورين والفرق الصغيرة','plan2.tokens':'500,000 رمز/شهر',
+    'plan2.f1':'500,000 رمز شهرياً','plan2.f2':'5 مفاتيح API','plan2.f3':'دعم ذو أولوية','plan2.f4':'حدود معدل أعلى','plan2.f5':'تحليلات الاستخدام','plan2.f6':'دفع حسب الاستخدام بعد الحصة','plan2.cta':'ابدأ التجربة الاحترافية',
+    'plan3.name':'المؤسسات','plan3.desc':'لأحمال العمل الإنتاجية','plan3.tokens':'رموز غير محدودة',
+    'plan3.f1':'رموز غير محدودة','plan3.f2':'20 مفتاح API','plan3.f3':'دعم مخصص','plan3.f4':'حدود معدل مخصصة','plan3.f5':'تحليلات متقدمة','plan3.f6':'ضمان SLA','plan3.cta':'تواصل مع فريق المبيعات',
+    'table.title':'أسعار الرموز للدفع حسب الاستخدام','table.model':'النموذج','table.input':'الإدخال (لكل مليون رمز)','table.output':'الإخراج (لكل مليون رمز)',
+    'cta.title':'هل أنت مستعد للبدء؟','cta.desc':'انضم إلى أكثر من 50,000 مطور يستخدمون Accio.','cta.btn':'ابدأ مجاناً →',
+    'footer.copy':'© 2026 Accio. جميع الحقوق محفوظة.','footer.privacy':'الخصوصية','footer.terms':'الشروط','footer.docs':'التوثيق',
+  }
+};
+
+// ── 国家 → 语言映射 ───────────────────────────────────────
+const COUNTRY_LANG = {
+  // 中文
+  CN:'zh', TW:'zh', HK:'zh', MO:'zh', SG:'zh',
+  // 日语
+  JP:'ja',
+  // 德语
+  DE:'de', AT:'de', CH:'de', LI:'de', LU:'de',
+  // 阿拉伯语
+  SA:'ar', AE:'ar', EG:'ar', KW:'ar', QA:'ar', BH:'ar',
+  OM:'ar', JO:'ar', LB:'ar', SY:'ar', IQ:'ar', YE:'ar',
+  MA:'ar', DZ:'ar', TN:'ar', LY:'ar', SD:'ar',
+};
+
+let currentLang = 'en';
+
+function applyLang(lang) {
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  currentLang = lang;
+
+  // 设置 html 属性
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+  // 更新页面标题
+  const titles = { en: 'Accio — AI API Platform', zh: 'Accio — AI API 平台', ja: 'Accio — AI API プラットフォーム', de: 'Accio — KI API Plattform', ar: 'Accio — منصة AI API' };
+  document.title = titles[lang] || titles.en;
+
+  // 替换所有 data-i18n 元素
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      // h1 特殊处理（包含内嵌 span）
+      if (el.tagName === 'H1') {
+        el.innerHTML = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // 高亮当前语言按钮
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const btnLang = btn.getAttribute('onclick').match(/'(\w+)'/)?.[1];
+    btn.classList.toggle('active', btnLang === lang);
+  });
+
+  // 保存用户手动选择
+  try { localStorage.setItem('accio_lang', lang); } catch(e){}
+}
+
+function setLang(lang) {
+  applyLang(lang);
+  try { localStorage.setItem('accio_lang_manual', '1'); } catch(e){}
+}
+
+async function detectLang() {
+  // 1. 优先使用手动选择
+  try {
+    if (localStorage.getItem('accio_lang_manual')) {
+      const saved = localStorage.getItem('accio_lang');
+      if (saved && TRANSLATIONS[saved]) return saved;
+    }
+  } catch(e){}
+
+  // 2. 浏览器语言快速匹配
+  const browserLang = (navigator.language || '').toLowerCase();
+  if (browserLang.startsWith('zh')) return 'zh';
+  if (browserLang.startsWith('ja')) return 'ja';
+  if (browserLang.startsWith('de')) return 'de';
+  if (browserLang.startsWith('ar')) return 'ar';
+
+  // 3. IP 地理位置检测
+  try {
+    const res = await Promise.race([
+      fetch('https://ipapi.co/json/').then(r => r.json()),
+      new Promise((_, reject) => setTimeout(() => reject('timeout'), 3000))
+    ]);
+    const country = res.country_code || res.country;
+    if (country && COUNTRY_LANG[country]) return COUNTRY_LANG[country];
+  } catch(e) {
+    // IP 检测失败，静默回退
+  }
+
+  return 'en';
+}
+
+// ── 初始化 ────────────────────────────────────────────────
+(async () => {
+  const lang = await detectLang();
+  applyLang(lang);
+
+  // 隐藏 loading
+  const loading = document.getElementById('lang-loading');
+  loading.classList.add('hide');
+  setTimeout(() => loading.remove(), 500);
+})();
+</script>
 </body>
 </html>
